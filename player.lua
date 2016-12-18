@@ -56,7 +56,7 @@ function Player:update(dt)
     self.x = self.x + dt*self.speed
     self.direction = 1
   end
-  self.y = self.y + 5
+  --self.y = self.y + 5
   
   
   
@@ -64,47 +64,47 @@ function Player:update(dt)
   self.y = clamp(0 + self.height/2, self.y , 1000+SCREEN_HEIGHT-91)
  -- CheckCollisionPlatforms()
 
-  tX = lerp(tX,SCREEN_WIDTH/2 - self.x,math.min(1, 3*dt)) 
-  tY = lerp(tY,SCREEN_HEIGHT/2  - self.y,math.min(1, 3*dt))
-  tX = clamp(-2500, tX, 0)
-  tY = clamp(-1000, tY, 0)
-  tX = math.floor(tX)
-  tY = math.floor(tY)
-  
-  
   self.speed = 500
   
   
   
-  --collision test
+  -- moveNormal()
   
   local dx,dy = self.x - prevX, self.y - prevY
   self.collider:update(dx,dy)
   both = false
   collX = false
   collY = false
+  overlapX = 0
+  overlapY = 0
   for i = 1, 5 do
     for j = 0, 60 do
       if Layer.platforms[i][j] then
-        bothT, collXT, collYT = self.collider:checkCollision(Layer.platforms[i][j].collider, dx, dy)
+        bothT, collXT, collYT, overlapXT, overlapYT  = self.collider:checkCollision(Layer.platforms[i][j].collider, dx, dy)
   --      print(bothT, collXT, collYT)
         both = both or bothT
         collX = collX or collXT
         collY = collY or collYT
+        overlapX = (math.abs(overlapX) > math.abs(overlapXT)) and overlapX or overlapXT
+        overlapY = (math.abs(overlapY) > math.abs(overlapYT)) and overlapY or overlapYT
       end
     end
   end
+  print(overlapX, overlapY)
+  
+  
+  
   if (both) then
     if(collX == collY) then
-      self.x = prevX
-      self.y = prevY
-      self.collider:update(-dx,-dy)
+      self.x = self.x - overlapX
+      self.y = self.y - overlapY
+      self.collider:update(-overlapX,-overlapY)
     elseif (collX)then
-      self.x = prevX
-      self.collider:update(-dx, 0)
+      self.x = self.x - overlapX
+      self.collider:update(-overlapX, 0)
     elseif (collY) then
-      self.y = prevY
-      self.collider:update(0,-dy)
+      self.y = self.y - overlapY
+      self.collider:update(0,-overlapY)
     end
   end
 end

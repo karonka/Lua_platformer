@@ -18,17 +18,39 @@ end
 
 function Collider:checkCollision(o, dx, dy)
 	--print(self.x1.." "..self.x2.." "..self.y1.." "..self.y2 )
-  local both, x, y = false, false, false
-	if(self.x1 <= o.x2 and self.x2 >= o.x1  and self.y1 <= o.y2 and self.y2 >= o.y1) then
+  local both, x, y, distX, distY = false, false, false, 0, 0
+	if(self.x1 < o.x2 and self.x2 > o.x1  and self.y1 < o.y2 and self.y2 > o.y1) then
     both = true
-    if(self.x1 <= o.x2 and self.x2 >= o.x1  and self.y1-dy <= o.y2 and self.y2-dy >= o.y1) then
-      x = true
+    
+    
+    if(self.x1 < o.x2 and self.x2 > o.x1  and self.y1-dy < o.y2 and self.y2-dy > o.y1) then
+      x = true  
+      if(self.x1 - dx < o.x1) then
+        distX = self.x2 - o.x1
+      else
+        distX = self.x1 - o.x2
+      end
     end
-    if(self.x1-dx <= o.x2 and self.x2-dx >= o.x1  and self.y1 <= o.y2 and self.y2 >= o.y1) then
+    
+    if(self.x1-dx < o.x2 and self.x2-dx > o.x1  and self.y1 < o.y2 and self.y2 > o.y1) then
       y = true
+      if(self.y1 - dy < o.y1) then
+        distY = self.y2 - o.y1
+      else
+        distY = self.y1 - o.y2
+      end
     end
+    
+    if(not x and not y) then
+      if(self.y1 - dy < o.y1) then
+        distY = self.y2 - o.y1
+      else
+        distY = self.y1 - o.y2
+      end
+    end
+      
   end  
-  return both, x, y
+  return both, x, y, distX, distY
 end
 
 function Collider:update(dx,dy)

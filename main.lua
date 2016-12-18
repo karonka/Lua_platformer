@@ -3,6 +3,7 @@ require 'loader'
 require 'collider'
 require 'player'
 require 'platform'
+require 'camera'
 
 function love.load()
   defineGlobals()
@@ -26,6 +27,7 @@ function love.update(dt)
       end
     end
   end
+  Camera.update(dt)
 end
 
 
@@ -33,7 +35,7 @@ end
 function love.draw()
   love.graphics.draw(Images["background"]["normal"],0,0,0,2)
   love.graphics.push()
-  love.graphics.translate(tX,tY)
+  love.graphics.translate(Camera.tX,Camera.tY)
   for k, v in pairs(Layer) do 
     for k2, v2 in pairs(v) do
       if v == Layer.platforms then
@@ -70,6 +72,7 @@ function createLevel()
   Layer.player = {}
   
   Layer.player[0] = Player:new( SCREEN_WIDTH/2, SCREEN_HEIGHT/2, 72, 97, 500)
+  Camera.target = Layer.player[0]
   
   for i = 1, 5 do
     Layer.platforms[i] = {}
@@ -103,8 +106,7 @@ function defineGlobals()
   
   tileWidth = 70
   tileHeight = 70
-  tY = 0
-  tX = 0
+  
 end
 
 function lerp(a,b,t) 
