@@ -19,7 +19,7 @@ function Player:new( xc, yc, w, h, acc, frictX, frictY, grav, jmpSpeed)
     jumpSpeed = jmpSpeed,
     frictionX = frictX,
     frictionY = frictY,
-    state = "walk",
+    state = "front",
     collider = Collider:new(xc, yc, w, h, 0.7, 0.9),
   }
   --Images["player"] = Images["alienPink"]
@@ -28,8 +28,10 @@ function Player:new( xc, yc, w, h, acc, frictX, frictY, grav, jmpSpeed)
 end
 
 function Player:draw()
-	-- scale factors to be dependant on resolution/ screen dims
-  	love.graphics.draw(Images["player"]["sprite"],Images["player"][self.state][self.frame], self.x - self.width/2, self.y - self.height/2, 0, 1 , 1)
+	self.direction = self.direction and self.velocityX*self.direction < 0 and -self.direction or self.direction or 1
+	local _,_,w,h = (Images["player"][self.state][self.frame] or Images["player"][self.state]):getViewport()
+  	love.graphics.draw(Images["player"]["sprite"],Images["player"][self.state][self.frame] or Images["player"][self.state], 
+  	self.x - (w/2)*self.direction, self.y - h/2, 0, self.direction , 1)
 end
 
 function Player:update(dt)
@@ -63,12 +65,13 @@ function Player:update(dt)
   end
   
   if (forceX * self.velocityX) < 0 and self.jumping then
-  	forceX = forceX/2.5
+  	forceX = forceX/2
   end
 
   --self.y = self.y + 5
   applyGravity(self, dt)
   updateVelocity(self, forceX, forceY, dt)
+  self.velocityX = self.velocityX >= 0 and math.floor(self.velocityX) or math.ceil(self.velocityX)
   self.x = self.x + self.velocityX*dt
   self.y = self.y + self.velocityY*dt
   self.x = clamp(0 + self.width/2, self.x , WORLD_WIDTH - self.width/2)
@@ -77,6 +80,14 @@ function Player:update(dt)
   self.speed = 500
   local dx,dy = self.x - prevX, self.y - prevY
   collisionWithStatic(self,dx,dy) 
+  
+  if math.abs(self.velocityX) < 20 and not self.jumping then
+  	self.state = 'front'
+  elseif math.abs(self.velocityX) > 20 and not self.jumping then
+  	self.state = 'walk'
+  elseif self.jumping then
+  	self.state = 'jump'
+  end
  
 end
 

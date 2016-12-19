@@ -1,7 +1,11 @@
 p3_duck = 365 98 69 71
+player front 1
 p3_front = 0 196 66 92
+player hurt 1
 p3_hurt = 438 0 69 92
+player jump 1
 p3_jump = 438 93 67 94
+player stand 1
 p3_stand = 67 196 66 92
 player walk 11
 p3_walk01 = 0 0 72 97

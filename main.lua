@@ -61,7 +61,7 @@ function createLevel()
   Layer.enemies = {}
   Layer.player = {}
   
-  Layer.player[0] = Player:new(SCREEN_WIDTH/2, SCREEN_HEIGHT/2, 72, 97, 1500, 3, 1, 1000, 600)
+  Layer.player[0] = Player:new(SCREEN_WIDTH/2, SCREEN_HEIGHT/2, 72, 97, 1500, 3, 1.4, 1800, 1400)
   Camera.target = Layer.player[0]
   
   for i = 1, 5 do
