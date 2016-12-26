@@ -43,7 +43,7 @@ function collisionWithStatic(self,dx,dy)
     elseif (collY) then
       	self.y = self.y - overlapY
       	self.collider:update(0,-overlapY)
-      	if self.velocityY > 0 then 
+      	if self.jumping and self.velocityY > 0 then 
 	  		self.jumping = false
 	  	end	
   		self.velocityY = 0

@@ -21,6 +21,7 @@ function Player:new( xc, yc, w, h, acc, frictX, frictY, grav, jmpSpeed)
     frictionY = frictY,
     state = "front",
     collider = Collider:new(xc, yc, w, h, 0.7, 0.9),
+    children = {},
   }
   --Images["player"] = Images["alienPink"]
   setmetatable(object, { __index = Player })

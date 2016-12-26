@@ -1,6 +1,7 @@
 function mediaLoader()	-- ? to be read from file ?
   spriteParser('GameAssets/Sprites/Actors/p3_spritesheet.txt','GameAssets/Sprites/Actors/p3_spritesheet.png')
   spriteParser('GameAssets/Sprites/Tiles/tiles_spritesheet.xml','GameAssets/Sprites/Tiles/tiles_spritesheet.png')
+  spriteParser('GameAssets/Sprites/Actors/enemies_spritesheet.txt','GameAssets/Sprites/Actors/enemies_spritesheet.png')
   bgsLoader("normal", "GameAssets/Sprites/Backgrounds/bg_grasslands.png")
 end
 
@@ -63,6 +64,7 @@ end
 
 
 function quadsLoader(obj, state, img, x, y, w, h)
+--	print(obj.."    "..state)
 	if not Images then
 		Images = {}
 	end
@@ -75,6 +77,8 @@ function quadsLoader(obj, state, img, x, y, w, h)
 	if Images[obj][state] and type(Images[obj][state]) ~= "table" then 
 		local im = Images[obj][state]
 		Images[obj][state] = {}
+		Images[obj][state][1] = im
+		Images[obj][state][#Images[obj][state] + 1] = love.graphics.newQuad(x,y,w,h, img:getDimensions())
 	elseif not Images[obj][state] then
 		Images[obj][state] = love.graphics.newQuad(x,y,w,h, img:getDimensions())
 	else

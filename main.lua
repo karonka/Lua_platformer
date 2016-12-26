@@ -4,11 +4,11 @@ require 'loader'
 require 'collider'
 require 'physics'
 require 'player'
+require 'enemy'
 require 'platform'
 require 'camera'
 
 function love.load()
-  --love.graphics.setBackgroundColor(0,60,180)
   mediaLoader()
   createLevel()
 end
@@ -63,7 +63,7 @@ function createLevel()
   
   Layer.player[0] = Player:new(SCREEN_WIDTH/2, SCREEN_HEIGHT/2, 72, 97, 1500, 3, 1.4, 1800, 1400)
   Camera.target = Layer.player[0]
-  
+  Layer.enemies[0] = Enemy:new( 200, 200, 54, 30, 60, 'snail', 'walk', Enemy.die)
   for i = 1, 5 do
     Layer.platforms[i] = {}
     for j = 0, TILE_COUNT_X - 1 do
