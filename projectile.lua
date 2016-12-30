@@ -1,11 +1,11 @@
 Projectile = {}
 -- Constructor
-function Projectile:new( xc, yc, w, h, in_speed, dir, tp, st, aimX, aimY)
+function Projectile:new( xc, yc, w, h, speed, dir, tp, st, movementLogic, onPlayerCollideFunc)
   -- define our parameters here
   local object = {
     x = xc,
     y = yc,
-    speed = in_speed,
+    velocityX = speed,
     width = w,
     height = h,
     frame = 1,
@@ -14,7 +14,9 @@ function Projectile:new( xc, yc, w, h, in_speed, dir, tp, st, aimX, aimY)
     direction = dir,
     projectileType = tp,
     state = st,
-    collider = Collider:new(xc, yc, w, h, 0.7, 0.9),
+    collider = Collider:new(xc, yc, w, h, 0.9, 0.9),
+    onCollideWithPlayer = onPlayerCollideFunc,
+--  update/ move logic = nil,
   }
   setmetatable(object, { __index = Projectile })
   return object
@@ -25,4 +27,5 @@ end
 
 function Projectile:update(dt)
 	--move()
+	--checkCollision
 end

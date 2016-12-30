@@ -2,6 +2,7 @@ function mediaLoader()	-- ? to be read from file ?
   spriteParser('GameAssets/Sprites/Actors/p3_spritesheet.txt','GameAssets/Sprites/Actors/p3_spritesheet.png')
   spriteParser('GameAssets/Sprites/Tiles/tiles_spritesheet.xml','GameAssets/Sprites/Tiles/tiles_spritesheet.png')
   spriteParser('GameAssets/Sprites/Actors/enemies_spritesheet.txt','GameAssets/Sprites/Actors/enemies_spritesheet.png')
+  spriteParser('GameAssets/Sprites/Tiles/sheet.txt','GameAssets/Sprites/Tiles/sheet.png')
   bgsLoader("normal", "GameAssets/Sprites/Backgrounds/bg_grasslands.png")
 end
 

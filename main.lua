@@ -5,6 +5,7 @@ require 'collider'
 require 'physics'
 require 'player'
 require 'enemy'
+require 'weapon'
 require 'platform'
 require 'camera'
 
@@ -62,6 +63,7 @@ function createLevel()
   Layer.player = {}
   
   Layer.player[0] = Player:new(SCREEN_WIDTH/2, SCREEN_HEIGHT/2, 72, 97, 1500, 3, 1.4, 1800, 1400)
+  Layer.player[0].children[1] = Weapon:new(Layer.player[0].x, Layer.player[0].y + 10, 22, 64, 'sword', 'normal', math.pi/6, 92, 45)
   Camera.target = Layer.player[0]
   Layer.enemies[0] = Enemy:new( 200, 200, 54, 30, 60, 'snail', 'walk', Enemy.die)
   for i = 1, 5 do

@@ -16,7 +16,7 @@ function Enemy:new( xc, yc, w, h, velocity, enemyTp, st, onPlayerCollideFunc)
     direction = -1,
     enemyType = enemyTp,
     state = st,
-    collider = Collider:new(xc, yc, w, h, 1, 1),
+    collider = Collider:new(xc, yc, w, h, 0.9, 0.9),
     onCollideWithPlayer = onPlayerCollideFunc,
 --  update/ move logic = nil,
   }
@@ -53,7 +53,7 @@ function Enemy:update(dt)
 	self:checkPlayerCollision()
 	--move()
 	--checkCollisions()
- 	--updateChilds() -- childs = weapons
+ 	--updateChildren() -- = weapons
 end
 
 function Enemy:checkPlayerCollision()
