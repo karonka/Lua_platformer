@@ -1,6 +1,6 @@
 Enemy = {}
 -- Constructor
-function Enemy:new( xc, yc, w, h, velocity, enemyTp, st, onPlayerCollideFunc)
+function Enemy:new( xc, yc, w, h, velocity, enemyTp, st, funcs)
   -- define our parameters here
   local object = {
     x = xc,
@@ -17,7 +17,7 @@ function Enemy:new( xc, yc, w, h, velocity, enemyTp, st, onPlayerCollideFunc)
     enemyType = enemyTp,
     state = st,
     collider = Collider:new(xc, yc, w, h, 0.9, 0.9),
-    onCollideWithPlayer = onPlayerCollideFunc,
+    behaviors = funcs,
 --  update/ move logic = nil,
   }
   setmetatable(object, { __index = Enemy })
@@ -50,7 +50,10 @@ function Enemy:update(dt)
 
 	local dx,dy = self.x - prevX, self.y - prevY
 	collisionWithStatic(self,dx,dy) 
-	self:checkPlayerCollision()
+	--self:checkPlayerCollision()
+	for k,v in ipairs(self.behaviors) do
+		v(self)
+	end
 	--move()
 	--checkCollisions()
  	--updateChildren() -- = weapons
@@ -59,17 +62,20 @@ end
 function Enemy:checkPlayerCollision()
 	local obj = Layer.player[0]
 	if self.collider:checkCollision(obj.collider,0,0) then
-		self:onCollideWithPlayer()
+		-- some logic
 	end
 end
 
-function Enemy:die()
-	self.velocityX = 0
-	self.state = "dead"
+function Enemy:dieOnPlayerCollision()
+	local obj = Layer.player[0]
+	if self.collider:checkCollision(obj.collider,0,0) then
+		self.velocityX = 0
+		self.state = "dead"
+	end
 end
 
 function Enemy:runFromPlayer()
 end
 
-function goToAim()
+function Enemy:goToAim()
 end

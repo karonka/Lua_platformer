@@ -1,6 +1,6 @@
 Projectile = {}
 -- Constructor
-function Projectile:new( xc, yc, w, h, speed, dir, tp, st, movementLogic, onPlayerCollideFunc)
+function Projectile:new( xc, yc, w, h, speed, dir, tp, st, funcs)
   -- define our parameters here
   local object = {
     x = xc,
@@ -15,7 +15,7 @@ function Projectile:new( xc, yc, w, h, speed, dir, tp, st, movementLogic, onPlay
     projectileType = tp,
     state = st,
     collider = Collider:new(xc, yc, w, h, 0.9, 0.9),
-    onCollideWithPlayer = onPlayerCollideFunc,
+    behaviors = funcs,
 --  update/ move logic = nil,
   }
   setmetatable(object, { __index = Projectile })
@@ -26,6 +26,7 @@ function Projectile:draw()
 end
 
 function Projectile:update(dt)
-	--move()
-	--checkCollision
+	for k,v in ipairs(self.behaviors) do
+		v(self)
+	end
 end

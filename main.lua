@@ -8,6 +8,7 @@ require 'enemy'
 require 'weapon'
 require 'platform'
 require 'camera'
+require 'objects'
 
 function love.load()
   mediaLoader()
@@ -21,11 +22,9 @@ function love.update(dt)
       if v == Layer.platforms then
         for k3, v3 in pairs(v2) do
           v3:update(dt)
-          --v3:draw()
         end
       else     
         v2:update(dt)
-        --v2:draw()
       end
     end
   end
@@ -42,11 +41,9 @@ function love.draw()
     for k2, v2 in pairs(v) do
       if v == Layer.platforms then
         for k3, v3 in pairs(v2) do
-          --v3:update(dt)
           v3:draw()
         end
       else     
-        --v2:update(dt)
         v2:draw()
       end
     end
@@ -63,9 +60,10 @@ function createLevel()
   Layer.player = {}
   
   Layer.player[0] = Player:new(SCREEN_WIDTH/2, SCREEN_HEIGHT/2, 72, 97, 1500, 3, 1.4, 1800, 1400)
-  Layer.player[0].children[1] = Weapon:new(Layer.player[0].x, Layer.player[0].y + 10, 22, 64, 'sword', 'normal', math.pi/6, 92, 45)
+  Layer.player[0].children[1] = Weapon:new(Layer.player[0].x, Layer.player[0].y + 10, 22, 64, 'sword', 'normal', Weapon.hit(0.5,1.8,0.1))
+  --Layer.player[0].children[1] = Weapon:new(Layer.player[0].x, Layer.player[0].y + 10, 40, 26, 'gun', 'normal', Weapon.hit(0.5,1.8,0.1))
   Camera.target = Layer.player[0]
-  Layer.enemies[0] = Enemy:new( 200, 200, 54, 30, 60, 'snail', 'walk', Enemy.die)
+	Layer.enemies[0] = Snail.new(200, 200)
   for i = 1, 5 do
     Layer.platforms[i] = {}
     for j = 0, TILE_COUNT_X - 1 do
