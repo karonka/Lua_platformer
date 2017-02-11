@@ -65,7 +65,7 @@ function Weapon:update(dt,dx,dy,direction)
 	self.y = self.y + dy
 	self.collider:update(dx,dy)
 	self.direction = direction or self.direction
-	self.func(dt,love.keyboard.isDown("e"))
+	self:func(dt,love.keyboard.isDown("e"))
 	--print(self.func(dt,love.keyboard.isDown("e")))
 	--move()
  	--updateChildren() -- children = projectiles
