@@ -11,6 +11,8 @@ function Collider:new(objX, objY, objW, objH, scaleW, scaleH)
     x2 = objX + objW*scaleW/2,
     y1 = objY - objH*scaleH/2,
     y2 = objY + objH*scaleH/2,
+    w = objW * scaleW,
+    h = objH * scaleH,
   } 
   setmetatable(o, { __index = Collider })  
   return o

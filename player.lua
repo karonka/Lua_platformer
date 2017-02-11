@@ -8,6 +8,7 @@ function Player:new( xc, yc, w, h, acc, frictX, frictY, grav, jmpSpeed)
     y = yc,
     width = w,
     height = h,
+    direction = 1,
     frame = 1,
     timePassed = 0,
     timePerFrame = 1/18,
