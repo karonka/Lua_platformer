@@ -40,7 +40,6 @@ end
 
 function Player:update(dt)
 	--print(self.x, self.y)
-	local prevX, prevY = self.x, self.y
 	self.timePassed = self.timePassed + dt
 	if self.timePassed > self.timePerFrame then  
 		self.frame = self.frame + 1
@@ -72,8 +71,10 @@ function Player:update(dt)
 		forceX = forceX/2
 	end
 
+	local prevX, prevY = self.x, self.y
 	--self.y = self.y + 5
-	applyGravity(self, dt)
+	--applyGravity(self, dt)
+	forceY = self.gravity*dt
 	updateVelocity(self, forceX, forceY, dt)
 	self.velocityX = self.velocityX >= 0 and math.floor(self.velocityX) or math.ceil(self.velocityX)
 	self.x = self.x + self.velocityX*dt
