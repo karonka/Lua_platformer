@@ -27,7 +27,7 @@ function Weapon:new(xc, yc, w, h, _spriteOffsetFromHandX, _spriteOffsetFromHandY
     offsetColliderX = _offsetColliderX,
     offsetColliderY = _offsetColliderY,
     collider = _collider or Collider:new(xc + _offsetColliderX, yc + _offsetColliderY, _colliderW, colliderH),
---  children = {} -- children = projectiles
+    children = {} -- children = projectiles
 }
 
   setmetatable(object, { __index = Weapon })
@@ -45,7 +45,6 @@ function Weapon:draw()
     -- Draw the collider for debuging
     drawCollider(self)
 	if(self.direction == 1) then
-        
 		love.graphics.draw(Images[self.weaponType]["sprite"],Images[self.weaponType][self.state][self.frame] or Images[self.weaponType][self.state], 
 	  	self.x + self.offsetX, --The hand of the player
 	  	self.y + self.offsetY, --The hand of the player
@@ -58,6 +57,12 @@ function Weapon:draw()
 	  	-self.angle, -1, 1,
 	  	self.spriteOffsetFromHandX, self.spriteOffsetFromHandY) 
 	end
+    --drawChildren() -- children = projectiles
+    for i = 1,#self.children do
+        if ( self.children[i].active == true ) then
+            self.children[i]:draw()
+        end
+  	end
 end
 
 function Weapon:update(dt, dx, dy, direction) 
@@ -73,9 +78,15 @@ function Weapon:update(dt, dx, dy, direction)
 	--print(self.func(dt,love.keyboard.isDown("e")))
 	--move()
  	--updateChildren() -- children = projectiles
+    for i = 1,#self.children do
+        if ( self.children[i].active == true ) then
+            self.children[i]:update(dt)
+        end
+  	end
 end
 
-function Weapon.hit(minRot, maxRot, hitDuration)
+-- Sword logic for hitting
+function Weapon.swordHit(minRot, maxRot, hitDuration)
 	local timeSinceHit = 0
 	local angle = minRot
 	local hitting = false
@@ -110,3 +121,26 @@ function Weapon.hit(minRot, maxRot, hitDuration)
 	end
 end
 
+function Weapon.gunHit(hitCooldown, projectileSpeed, maxProjectiles, firePointOffsetFromHandX, firePointOffsetFromHandY)
+	local timeSinceHit = 0
+	local angle = minRot
+	local hitting = false
+    local nextProjectileIndex = 1
+	return function (self, dt, hit) -- hit == isKeyDown()
+        if hit and not hitting then
+			hitting = true
+            local spawnX = self.x + (self.spriteOffsetFromHandX + firePointOffsetFromHandX) * self.direction
+            local spawnY = self.y +  self.spriteOffsetFromHandY + firePointOffsetFromHandY  
+            self.children[nextProjectileIndex] = Projectile:new(spawnX, spawnY , 12, 12, projectileSpeed, 1,'projectile', 'laser', spawnX + 300 * self.direction, spawnY, self.damage, {moveLinear})
+            nextProjectileIndex = nextProjectileIndex % maxProjectiles + 1
+		end
+		if hitting then
+			timeSinceHit = timeSinceHit + dt
+			if timeSinceHit >= hitCooldown then
+				timeSinceHit = 0
+				hitting = false
+			end
+		end
+		
+	end
+end

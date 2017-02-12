@@ -40,6 +40,15 @@ function Player:draw()
 end
 
 function Player:update(dt)
+    
+    -- switch weapon logic, move that into a function
+    if love.keyboard.isDown("1") then
+        Layer.player[0].children[1] = Weapon:new(Layer.player[0].x, Layer.player[0].y, 22, 64,   9, 59, 28, 25,   60, 10, 60, 60, 'sword', 'normal', 100, Weapon.swordHit(0.5,1.8,0.15))
+    end
+    if love.keyboard.isDown("2") then
+        Layer.player[0].children[1] =   Weapon:new(Layer.player[0].x, Layer.player[0].y, 22, 64,   10, 20, 28, 25,   0, 0, 0, 0, 'gun', 'normal', 25, Weapon.gunHit(0.2,600,20,50,-5))
+    end
+    
 	--print(self.x, self.y)
 	self.timePassed = self.timePassed + dt
 	if self.timePassed > self.timePerFrame then  

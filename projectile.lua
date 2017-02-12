@@ -1,6 +1,6 @@
 Projectile = {}
 -- Constructor
-function Projectile:new( xc, yc, w, h, speed, dir, tp, st, targetX, targetY, funcs)
+function Projectile:new( xc, yc, w, h, speed, dir, tp, st, targetX, targetY, _damage, funcs)
   -- define our parameters here
   local object = {
     x = xc,
@@ -13,8 +13,10 @@ function Projectile:new( xc, yc, w, h, speed, dir, tp, st, targetX, targetY, fun
     timePassed = 0,
     timePerFrame = 1/18,
     direction = dir,
+    damage = _damage,
     projectileType = tp,
     state = st,
+    active = true,
     collider = Collider:new(xc, yc, w, h, 0.8, 0.8),
     behaviors = funcs,
 --  update/ move logic = nil,
@@ -41,4 +43,11 @@ function Projectile:update(dt)
 	for k,v in ipairs(self.behaviors) do
 		v(self,dt)
 	end
+    for k, v in pairs(Layer.enemies) do 
+        if ( self.collider:checkCollisionBasic(v.collider) ) then
+            v:getHit(self.damage)
+            self.active = false
+            return
+        end
+    end
 end

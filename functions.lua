@@ -150,7 +150,9 @@ function takeAllHp(self)
 end
 
 function takeDamage(self,damage)
+    --print(damage)
 	self.hp = self.hp - damage
+    self.recentlyDamaged = true
 	if self.hp <= 0 then
 		takeAllHp(self)
 	end
