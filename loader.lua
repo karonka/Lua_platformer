@@ -1,7 +1,9 @@
 function mediaLoader()	-- ? to be read from file ?
   spriteParser('GameAssets/Sprites/Actors/p3_spritesheet.txt','GameAssets/Sprites/Actors/p3_spritesheet.png')
   spriteParser('GameAssets/Sprites/Tiles/tiles_spritesheet.xml','GameAssets/Sprites/Tiles/tiles_spritesheet.png')
+  spriteParser('GameAssets/Sprites/Tiles/items_spritesheet.xml','GameAssets/Sprites/Tiles/items_spritesheet.png')
   spriteParser('GameAssets/Sprites/Actors/enemies_spritesheet.txt','GameAssets/Sprites/Actors/enemies_spritesheet.png')
+  spriteParser('GameAssets/Sprites/Actors/enemies.xml','GameAssets/Sprites/Actors/enemies.png')
   spriteParser('GameAssets/Sprites/Tiles/sheet.txt','GameAssets/Sprites/Tiles/sheet.png')
   bgsLoader("normal", "GameAssets/Sprites/Backgrounds/bg_grasslands.png")
 end
@@ -52,7 +54,7 @@ function xmlParser(file, sprite)
 	for line in love.filesystem.lines(file) do
 	  fileLines[#fileLines+1] = line
 	end
-	local pattern = "%s*<SubTexture name=\"(%a+)%p(%a+)%d*%.png\" x=\"(%d+)\" y=\"(%d+)\" width=\"(%d+)\" height=\"(%d+)\"/>%s*"
+	local pattern = "%s*<SubTexture name=\"(%a+%d*)%p(%a+)%d*%.png\" x=\"(%d+)\" y=\"(%d+)\" width=\"(%d+)\" height=\"(%d+)\"/>%s*"
 	local obj, state, x, y, w, h
 	for i = 1,#fileLines do
     	local t = fileLines[i]

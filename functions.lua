@@ -141,6 +141,29 @@ function restore(cooldown, condition, value, originalValues)
 	end
 end
 
+function takeAllHp(self)
+	self.state = 'dead'
+	self.velocityX = 0
+	if self.hp then
+		self.hp = 0
+	end
+end
+
+function takeDamage(self,damage)
+	self.hp = self.hp - damage
+	if hp <= 0 then
+		takeAllHp(self)
+	end
+end
+
+function getHit(self, damage)
+	if self.behaviors.takeDamage then 
+		self.takeDamage()
+	elseif self.behaviors.takeAllHp then 
+		self.takeAllHp()
+	end
+end
+
 --- DEBUG ---
 
 function drawCollider(self)

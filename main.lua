@@ -7,6 +7,7 @@ require 'enemy'
 require 'weapon'
 require 'platform'
 require 'projectile'
+require 'item'
 require 'camera'
 require 'objects'
 require 'functions'
@@ -59,14 +60,21 @@ function createLevel()
   Layer.platforms = {}
   Layer.enemies = {}
   Layer.player = {}
+  Layer.items = {}
   
   Layer.player[0] = Player:new(SCREEN_WIDTH/2, SCREEN_HEIGHT/2, 72, 97, 1500, 3, 1.4, 1800, 1400)
   Layer.player[0].children[1] = Weapon:new(Layer.player[0].x, Layer.player[0].y, 22, 64, 9, 59,   28, 25, 60, 10, 60, 60, 'sword', 'normal', 100, Weapon.hit(0.5,1.8,0.1))
   --Layer.player[0].children[1] =   Weapon:new(Layer.player[0].x, Layer.player[0].y, 22, 64, 9, 59,   28, 25, 60, 10, 50, 50, 'gun', 'normal', 100, Weapon.hit(0.5,1.8,0.1))
   --Layer.player[0].children[2] = Projectile:new(1000,300, 12, 12, 250, 1,'projectile', 'laser',0, 300, {moveLinear})
   Camera.target = Layer.player[0]
-	Layer.enemies[0] = Snail.new(200, 200)
-	Layer.enemies[1] = Fly.new(200, 400, 500)
+	--Layer.enemies[0] = Snail.new(200, 200)
+	--Layer.enemies[1] = Fly.new(200, 400, 500)
+	Layer.items[0] = Item:new(200, 500, 20, 20, 'buttonBlue', nil, {activateOnPlayerEnter})
+	Layer.items[1] = Item:new(300, 500, 20, 20, 'buttonGreen', nil, {activateOnPlayerEnter,deactivateOnPlayerLeave})
+	Layer.items[2] = Item:new(400, 500, 20, 20, 'buttonYellow')
+	Layer.items[3] = Item:new(500, 500, 20, 20, 'coin', 'gold', {hideOnPlayerEnter})
+	Layer.items[4] = Item:new(900, 500, 20, 20, 'key', 'yellow', {activateSthOnPlayerEnter(Layer.items[2]), hideOnPlayerEnter})
+	Layer.items[5] = Item:new(700, 500, 20, 20, 'flagRed', nil, {activateOnPlayerEnter})
   for i = 1, TILE_COUNT_Y do
     Layer.platforms[i] = {}
     if i % 10 == 0 then
