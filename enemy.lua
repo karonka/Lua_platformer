@@ -1,6 +1,6 @@
 Enemy = {}
 -- Constructor
-function Enemy:new( xc, yc, w, h, velocity, enemyTp, st, funcs)
+function Enemy:new( xc, yc, w, h, velocity, enemyTp, st, timePerFr, funcs)
   -- define our parameters here
   local object = {
     x = xc,
@@ -12,11 +12,11 @@ function Enemy:new( xc, yc, w, h, velocity, enemyTp, st, funcs)
     height = h,
     frame = 1,
     timePassed = 0,
-    timePerFrame = 1/2,
+    timePerFrame = timePerFr,
     direction = -1,
     enemyType = enemyTp,
     state = st,
-    collider = Collider:new(xc, yc, w, h, 0.9, 0.9),
+    collider = _collider or Collider:new(xc, yc, w, h, 0.9, 0.9),
     behaviors = funcs,
 --  update/ move logic = nil,
   }
@@ -38,12 +38,14 @@ function Enemy:update(dt)
 		self.frame = self.frame + 1
 		if type(Images[self.enemyType][self.state]) == "table" and self.frame > #Images[self.enemyType][self.state] then
 			self.frame = self.frame - (#Images[self.enemyType][self.state])
+		elseif type(Images[self.enemyType][self.state]) ~= "table" then
+			self.frame = 1
 		end
 		self.timePassed = self.timePassed - self.timePerFrame
 	end
-	for k,v in ipairs(self.behaviors) do
+	for k,v in pairs(self.behaviors) do
 		v(self)
-	end
+	end	
 	--move()
 	--checkCollisions()
  	--updateChildren() -- = weapons
