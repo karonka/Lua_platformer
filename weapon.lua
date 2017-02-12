@@ -39,7 +39,7 @@ end]]
 
 function Weapon:draw()
     -- Draw the collider for debuging
-    love.graphics.rectangle("fill", self.collider.x1, self.collider.y1, self.collider.w, self.collider.h)
+    drawCollider(self)
 	if(self.direction == 1) then
         
 		love.graphics.draw(Images[self.weaponType]["sprite"],Images[self.weaponType][self.state][self.frame] or Images[self.weaponType][self.state], 
@@ -56,7 +56,7 @@ function Weapon:draw()
 	end
 end
 
-function Weapon:update(dt,dx,dy,direction) 
+function Weapon:update(dt, dx, dy, direction) 
     if(self.direction ~= direction) then
         self.collider:update( (self.offsetColliderX*2) * direction, 0)
     end

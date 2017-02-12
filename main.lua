@@ -61,17 +61,17 @@ function createLevel()
   Layer.player = {}
   
   Layer.player[0] = Player:new(SCREEN_WIDTH/2, SCREEN_HEIGHT/2, 72, 97, 1500, 3, 1.4, 1800, 1400)
-  Layer.player[0].children[1] = Weapon:new(Layer.player[0].x, Layer.player[0].y, 22, 64,   28, 25, 60, 10, 50, 50, 'sword', 100, 'normal', Weapon.hit(0.5,1.8,0.1))
-  --Layer.player[0].children[1] = Weapon:new(Layer.player[0].x, Layer.player[0].y + 10, 40, 26, 'gun', 'normal', Weapon.hit(0.5,1.8,0.1))
+  Layer.player[0].children[1] = Weapon:new(Layer.player[0].x, Layer.player[0].y, 22, 64,   28, 25, 60, 10, 50, 50, 'sword', 100, 'normal',Weapon.hit(0.5,1.8,0.1))
+  --Layer.player[0].children[1] = Weapon:new(Layer.player[0].x, Layer.player[0].y + 10, 40, 26, 'gun', 'normal', {Weapon.hit(0.5,1.8,0.1)})
   --Layer.player[0].children[2] = Projectile:new(1000,300, 12, 12, 250, 1,'projectile', 'laser',0, 300, {moveLinear})
   Camera.target = Layer.player[0]
 	Layer.enemies[0] = Snail.new(200, 200)
-	Layer.enemies[1] = Fly.new(200, 200, 500)
+	Layer.enemies[1] = Fly.new(200, 400, 500)
   for i = 1, TILE_COUNT_Y do
     Layer.platforms[i] = {}
     if i % 10 == 0 then
 		for j = 0, TILE_COUNT_X - 1 do
-		  Layer.platforms[i][j] = Platform:new(TILE_WIDTH*j + TILE_WIDTH/2, 300+30*i, 70, 70,"grass", "mid")
+		  Layer.platforms[i][j] = Platform:new(TILE_WIDTH*j + TILE_WIDTH/2, 300+30*i, 70, 70, "grass", "mid")
 		end
 		local hole = love.math.random(0,46)
 		if i == TILE_COUNT_Y then
