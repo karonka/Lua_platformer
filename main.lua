@@ -63,8 +63,8 @@ function createLevel()
   Layer.items = {}
   
   Layer.player[0] = Player:new(SCREEN_WIDTH/2, SCREEN_HEIGHT/2, 72, 97, 1500, 3, 1.4, 1800, 1400)
-  Layer.player[0].children[1] = Weapon:new(Layer.player[0].x, Layer.player[0].y, 22, 64, 9, 59,   28, 25, 60, 10, 60, 60, 'sword', 'normal', 100, Weapon.hit(0.5,1.8,0.1))
-  --Layer.player[0].children[1] =   Weapon:new(Layer.player[0].x, Layer.player[0].y, 22, 64, 9, 59,   28, 25, 60, 10, 50, 50, 'gun', 'normal', 100, Weapon.hit(0.5,1.8,0.1))
+  --Layer.player[0].children[1] = Weapon:new(Layer.player[0].x, Layer.player[0].y, 22, 64, 9, 59,   28, 25, 60, 10, 60, 60, 'sword', 'normal', 100, Weapon.hit(0.5,1.8,0.15))
+  Layer.player[0].children[1] =   Weapon:new(Layer.player[0].x, Layer.player[0].y, 22, 64, 9, 59,   28, 25, 60, 10, 50, 50, 'gun', 'normal', 100, Weapon.hit(0.5,1.8,0.1))
   --Layer.player[0].children[2] = Projectile:new(1000,300, 12, 12, 250, 1,'projectile', 'laser',0, 300, {moveLinear})
   Camera.target = Layer.player[0]
 	--Layer.enemies[0] = Snail.new(200, 200)

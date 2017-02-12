@@ -79,7 +79,7 @@ function Weapon.hit(minRot, maxRot, hitDuration)
 	local timeSinceHit = 0
 	local angle = minRot
 	local hitting = false
-    local enemyHitted = false
+    local enemyHit = false
 	return function (self, dt, hit) -- hit == isKeyDown()
 		if hit then
 			hitting = true
@@ -96,7 +96,7 @@ function Weapon.hit(minRot, maxRot, hitDuration)
 				timeSinceHit = 0
 				hitting = false
 			end
-            if ( not enemyHitted ) then
+            if ( not enemyHit ) then
             -- collisionLogic
             -- WORK IN PROGRESS 
                 for k, v in pairs(Layer.enemies) do 
