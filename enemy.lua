@@ -16,7 +16,7 @@ function Enemy:new( xc, yc, w, h, velocity, enemyTp, st, timePerFr, funcs)
     direction = -1,
     enemyType = enemyTp,
     state = st,
-    collider = _collider or Collider:new(xc, yc, w, h, 0.9, 0.9),
+    collider = _collider or Collider:new(xc, yc, w, h, 0.6, 0.9),
     behaviors = funcs,
 --  update/ move logic = nil,
   }
@@ -29,6 +29,7 @@ function Enemy:draw()
 	local _,_,w,h = (Images[self.enemyType][self.state][self.frame] or Images[self.enemyType][self.state]):getViewport()
   	love.graphics.draw(Images[self.enemyType]["sprite"],Images[self.enemyType][self.state][self.frame] or Images[self.enemyType][self.state], 
   	self.x - (w/2)*self.direction, self.y - h/2, 0, self.direction , 1)
+    drawCollider(self)
 end
    
 function Enemy:update(dt)

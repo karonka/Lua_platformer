@@ -79,6 +79,7 @@ function Weapon.hit(minRot, maxRot, hitDuration)
 	local timeSinceHit = 0
 	local angle = minRot
 	local hitting = false
+    local enemyHitted = false
 	return function (self, dt, hit) -- hit == isKeyDown()
 		if hit then
 			hitting = true
@@ -95,7 +96,19 @@ function Weapon.hit(minRot, maxRot, hitDuration)
 				timeSinceHit = 0
 				hitting = false
 			end
+            if ( not enemyHitted ) then
             -- collisionLogic
+            -- WORK IN PROGRESS 
+                for k, v in pairs(Layer.enemies) do 
+                    if ( self.collider:checkCollisionBasic(v.collider) ) then
+                        -- WORKING HERE RIGHT NOW, ALL OF THIS WILL BE CHANGED 
+                        v.velocityX = 0
+                        v.state = "dead"
+                        print(v)
+                        enemyHitted = true
+                    end
+                end
+            end
 		end
 		self.angle =  angle	
 	end
