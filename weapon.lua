@@ -81,8 +81,9 @@ function Weapon.hit(minRot, maxRot, hitDuration)
 	local hitting = false
     local enemyHit = false
 	return function (self, dt, hit) -- hit == isKeyDown()
-		if hit then
+		if hit and not hitting then
 			hitting = true
+            enemyHit = false
 		end
 		if hitting then
             -- change angle of sword
@@ -97,15 +98,10 @@ function Weapon.hit(minRot, maxRot, hitDuration)
 				hitting = false
 			end
             if ( not enemyHit ) then
-            -- collisionLogic
-            -- WORK IN PROGRESS 
                 for k, v in pairs(Layer.enemies) do 
                     if ( self.collider:checkCollisionBasic(v.collider) ) then
-                        -- WORKING HERE RIGHT NOW, ALL OF THIS WILL BE CHANGED 
-                        v.velocityX = 0
-                        v.state = "dead"
-                        print(v)
-                        enemyHitted = true
+                        enemyHit = true
+                        v:getHit(self.damage)
                     end
                 end
             end
