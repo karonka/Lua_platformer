@@ -1,14 +1,17 @@
 Weapon = {}
 -- Constructor
-function Weapon:new( xc, yc, w, h, _offsetX, _offsetY, _offsetColliderX, _offsetColliderY, _colliderW, colliderH, _type, _damage, _state, _func)
+function Weapon:new(xc, yc, w, h, _spriteOffsetFromHandX, _spriteOffsetFromHandY, _offsetToHandX, _offsetToHandY, _offsetColliderX, _offsetColliderY, _colliderW, colliderH, _type, _state, _damage, _func)
   -- define our parameters here
   local object = {
-    -- center of transformations ( The sprite will be rotated arround that point
+    -- center of the player
     x = xc,
     y = yc,
     -- translation 
-    offsetX = _offsetX,
-    offsetY = _offsetY,
+    spriteOffsetFromHandX = _spriteOffsetFromHandX,
+    spriteOffsetFromHandY = _spriteOffsetFromHandY,
+    -- offSet from the center of the player to the hand of the player
+    offsetX = _offsetToHandX,
+    offsetY = _offsetToHandY,
 --    speed = in_speed,
     width = w,
     height = h,
@@ -26,6 +29,7 @@ function Weapon:new( xc, yc, w, h, _offsetX, _offsetY, _offsetColliderX, _offset
     collider = _collider or Collider:new(xc + _offsetColliderX, yc + _offsetColliderY, _colliderW, colliderH),
 --  children = {} -- children = projectiles
 }
+
   setmetatable(object, { __index = Weapon })
   return object
 end
@@ -39,20 +43,21 @@ end]]
 
 function Weapon:draw()
     -- Draw the collider for debuging
-    love.graphics.rectangle("fill", self.collider.x1, self.collider.y1, self.collider.w, self.collider.h)
+    --love.graphics.rectangle("fill", self.collider.x1, self.collider.y1, self.collider.w, self.collider.h)
+    love.graphics.rectangle("fill", self.x + self.offsetX, self.y + self.offsetY, 5, 5)
 	if(self.direction == 1) then
         
 		love.graphics.draw(Images[self.weaponType]["sprite"],Images[self.weaponType][self.state][self.frame] or Images[self.weaponType][self.state], 
-	  	self.x + self.offsetX, --17
-	  	self.y + self.offsetY, --40
-	  	self.angle, -1, 1,
-	  	9,59)
+	  	self.x + self.offsetX, --The hand of the player
+	  	self.y + self.offsetY, --The hand of the player
+	  	self.angle, 1, 1,
+	  	self.spriteOffsetFromHandX, self.spriteOffsetFromHandY) 
   	else
 	  	love.graphics.draw(Images[self.weaponType]["sprite"],Images[self.weaponType][self.state][self.frame] or Images[self.weaponType][self.state], 
-	  	self.x - self.offsetX, --17
-	  	self.y + self.offsetY, --40
-	  	-self.angle, 1, 1,
-	  	9,59)
+	  	self.x - self.offsetX, --The hand of the player
+	  	self.y + self.offsetY, --The hand of the player
+	  	-self.angle, -1, 1,
+	  	self.spriteOffsetFromHandX, self.spriteOffsetFromHandY) 
 	end
 end
 
