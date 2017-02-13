@@ -85,8 +85,8 @@
 	<SubTexture name="spider_normal.png" x="0" y="326" width="71" height="45"/>
 	<SubTexture name="spider_dead.png" x="71" y="282" width="69" height="51"/>
 	<SubTexture name="spider_hit.png" x="0" y="281" width="71" height="45"/>
-	<SubTexture name="spider_walk1.png" x="0" y="90" width="72" height="51"/>
-	<SubTexture name="spider_walk2.png" x="0" y="37" width="77" height="53"/>
+	<SubTexture name="spider_walk1.png" x="0" y="91" width="72" height="51"/>
+	<SubTexture name="spider_walk2.png" x="0" y="37" width="77" height="51"/>
 	<SubTexture name="spinner_spin1.png" x="134" y="372" width="63" height="62"/>
 	<SubTexture name="spinnerHalf_spin1.png" x="71" y="449" width="63" height="31"/>
 	<SubTexture name="spinnerHalf_dead.png" x="71" y="418" width="63" height="31"/>

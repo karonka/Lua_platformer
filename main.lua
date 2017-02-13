@@ -69,12 +69,14 @@ function createLevel()
     Camera.target = Layer.player[0]
 	Layer.enemies[0] = Snail.new(200, 200)
 	Layer.enemies[1] = Fly.new(200, 400, 500)
+	Layer.enemies[2] = Spider.new(800, 400, 500)
 	Layer.items[0] = Item:new(200, 500, 20, 20, 'buttonBlue', nil, {activateOnPlayerEnter})
 	Layer.items[1] = Item:new(300, 500, 20, 20, 'buttonGreen', nil, {activateOnPlayerEnter,deactivateOnPlayerLeave})
 	Layer.items[2] = Item:new(400, 500, 20, 20, 'buttonYellow')
 	Layer.items[3] = Item:new(500, 500, 20, 20, 'coin', 'gold', {hideOnPlayerEnter})
 	Layer.items[4] = Item:new(900, 500, 20, 20, 'key', 'yellow', {activateSthOnPlayerEnter(Layer.items[2]), hideOnPlayerEnter})
 	Layer.items[5] = Item:new(700, 500, 20, 20, 'flagRed', nil, {activateOnPlayerEnter})
+	Layer.items[6] = Bomb.new(100, 500)
     for i = 1, TILE_COUNT_Y do
         Layer.platforms[i] = {}
         if i % 10 == 0 then

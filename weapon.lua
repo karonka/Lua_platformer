@@ -59,9 +59,7 @@ function Weapon:draw()
 	end
     --drawChildren() -- children = projectiles
     for i = 1,#self.children do
-        if ( self.children[i].active == true ) then
-            self.children[i]:draw()
-        end
+    	self.children[i]:draw()
   	end
 end
 
@@ -79,9 +77,7 @@ function Weapon:update(dt, dx, dy, direction)
 	--move()
  	--updateChildren() -- children = projectiles
     for i = 1,#self.children do
-        if ( self.children[i].active == true ) then
-            self.children[i]:update(dt)
-        end
+        self.children[i]:update(dt)
   	end
 end
 
@@ -131,7 +127,7 @@ function Weapon.gunHit(hitCooldown, projectileSpeed, maxProjectiles, firePointOf
 			hitting = true
             local spawnX = self.x + (self.spriteOffsetFromHandX + firePointOffsetFromHandX) * self.direction
             local spawnY = self.y +  self.spriteOffsetFromHandY + firePointOffsetFromHandY  
-            self.children[nextProjectileIndex] = Projectile:new(spawnX, spawnY , 12, 12, projectileSpeed, 1,'projectile', 'laser', spawnX + 300 * self.direction, spawnY, self.damage, {moveLinear})
+            self.children[nextProjectileIndex] = Projectile:new(spawnX, spawnY , 12, 12, projectileSpeed, 1,'projectile', 'laser', spawnX + 800 * self.direction, spawnY, self.damage, {moveLinear})
             nextProjectileIndex = nextProjectileIndex % maxProjectiles + 1
 		end
 		if hitting then

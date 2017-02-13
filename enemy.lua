@@ -28,19 +28,18 @@ function Enemy:new( xc, yc, w, h, velocity, enemyTp, st, timePerFr, _hp, _onHitF
 end
 
 function Enemy:draw()
-    if(self.recentlyDamaged == true) then
+    if self.recentlyDamaged == true and self.state ~= 'dead' then
         love.graphics.setColor(150,0,0)
     end
 	--self.direction = self.direction and self.velocityX*self.direction < 0 and -self.direction or self.direction or 1
 	local _,_,w,h = (Images[self.enemyType][self.state][self.frame] or Images[self.enemyType][self.state]):getViewport()
   	love.graphics.draw(Images[self.enemyType]["sprite"],Images[self.enemyType][self.state][self.frame] or Images[self.enemyType][self.state], 
   	self.x - (w/2)*self.direction, self.y - h/2, 0, self.direction , 1)
-    drawCollider(self)
-    if(self.recentlyDamaged == true) then
+    --drawCollider(self)
+    if self.recentlyDamaged == true then
         love.graphics.setColor(255,255,255)
         self.recentlyDamaged = false
     end
-    love.graphics.setColor(255,255,255)
 end
    
 function Enemy:update(dt)

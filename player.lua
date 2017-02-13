@@ -23,6 +23,7 @@ function Player:new( xc, yc, w, h, acc, frictX, frictY, grav, jmpSpeed)
     state = "front",
     collider = Collider:new(xc, yc, w, h, 0.7, 0.9),
     children = {},
+    inventory = {},
   }
   --Images["player"] = Images["alienPink"]
   setmetatable(object, { __index = Player })
@@ -42,10 +43,10 @@ end
 function Player:update(dt)
     
     -- switch weapon logic, move that into a function
-    if love.keyboard.isDown("1") then
+    if love.keyboard.isDown("1") and not love.keyboard.isDown("i") then
         Layer.player[0].children[1] = Weapon:new(Layer.player[0].x, Layer.player[0].y, 22, 64,   9, 59, 28, 25,   60, 10, 60, 60, 'sword', 'normal', 100, Weapon.swordHit(0.5,1.8,0.15))
     end
-    if love.keyboard.isDown("2") then
+    if love.keyboard.isDown("2") and not love.keyboard.isDown("i") then
         Layer.player[0].children[1] =   Weapon:new(Layer.player[0].x, Layer.player[0].y, 22, 64,   10, 20, 28, 25,   0, 0, 0, 0, 'gun', 'normal', 25, Weapon.gunHit(0.2,600,20,50,-5))
     end
     
@@ -108,7 +109,17 @@ function Player:update(dt)
     for i = 1,#self.children do
   		self.children[i]:update(dt,dx,dy,self.direction)
   	end
- 
+ 	self:chooseFromInventory()
+end
+
+function Player:chooseFromInventory()
+	if love.keyboard.isDown('i') then
+		for i = 1,#self.inventory do
+			if love.keyboard.isDown(tostring(i)) then
+				drop(self.inventory[i],self.x + 100*self.direction, self.y)
+			end
+		end
+	end
 end
 
 

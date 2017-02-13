@@ -33,7 +33,6 @@ end
    
 function Item:update(dt)
 	if not self.isVisible then return end
-	local prevX, prevY = self.x, self.y
 	self.timePassed = self.timePassed + dt
 	if self.timePassed > self.timePerFrame then  
 		self.frame = self.frame + 1
@@ -50,12 +49,12 @@ function Item:update(dt)
 end
 
 function activate(self)
-	self.isActive = not self.isActive
+	self.isActive = true
 	self.state = 'get'
 end
 
 function deactivate(self)
-	self.isActive = not self.isActive
+	self.isActive = false
 	self.state = 'normal'
 end
 
@@ -95,6 +94,45 @@ function killPlayerOnEnter(self)
 		
 	end
 end
+
+function collect(self)
+	if checkPlayerCollision(self) then
+		Layer.player[0].inventory[#Layer.player[0].inventory + 1] = self
+		self.isVisible = false
+	end
+end
+
+function drop(self, x, y)
+	local prevX, prevY = self.x, self.y
+	self.isVisible = true
+	self.x = x
+	self.y = y
+	for k,v in pairs(Layer.player[0].inventory) do
+		if Layer.player[0].inventory[k] == self then
+			Layer.player[0].inventory[k] = nil
+			break
+		end
+	end
+	self.collider:update(self.x - prevX, self.y - prevY)
+	self.inUse = true
+end
+
+function onPlayerInteraction(_func)
+	return function(self)
+		if self.inUse and love.keyboard.isDown("f") then
+			_func(self)
+			self.isActive = false
+		end
+	end
+end
+
+function useBomb(self)
+	for k, v in pairs(Layer.enemies) do
+    	v:getHit(self.damage)
+    end
+    self.isVisible = false
+end
+
 
 
 
