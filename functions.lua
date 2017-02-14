@@ -37,6 +37,7 @@ function normalMovement(self)
 		self.velocityX = -1*self.velocityX
 	end 
 	self.x = self.x + self.velocityX*dt	
+	self.x = clamp(0 + self.width/2, self.x , WORLD_WIDTH - self.width/2)
 	self.y = self.y + self.velocityY*dt
 	self.y = clamp(0 + self.height/2, self.y , WORLD_HEIGHT - self.height/2)
 	collisionWithStatic(self, self.x - prevX, self.y - prevY)
@@ -160,6 +161,15 @@ end
 
 function takeNoDamage(self,damage)
     self.recentlyDamaged = true
+end
+
+function damagePlayer(damage)
+	return function(self)
+		if self.state ~= 'dead' and checkPlayerCollision(self) and PLAYER.recentlyDamaged == false then
+			PLAYER.hp = PLAYER.hp - damage
+			PLAYER.recentlyDamaged = true
+		end
+	end
 end
 
 

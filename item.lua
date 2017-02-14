@@ -1,6 +1,6 @@
 Item = {}
 -- Constructor
-function Item:new( xc, yc, w, h, _itemTp, _state, funcs)
+function Item:new( xc, yc, w, h, _itemTp, _state, _collider, funcs)
   -- define our parameters here
   local object = {
     x = xc,
@@ -15,7 +15,7 @@ function Item:new( xc, yc, w, h, _itemTp, _state, funcs)
     state = _state or 'normal',
     isActive = false,
     isVisible = true,
-    collider = Collider:new(xc, yc, w, h, 0.9, 0.9),
+    collider = _collider or Collider:new(xc, yc, w, h, 0.9, 0.9),
     behaviors = funcs or {},
 --  update/ move logic = nil,
   }
@@ -24,16 +24,7 @@ function Item:new( xc, yc, w, h, _itemTp, _state, funcs)
 end
 
 function Item:draw()
-	if not self.isVisible then return end
-	--local drawState = 
-	local _,_,w,h = (Images[self.itemType][self.state][self.frame] or Images[self.itemType][self.state]):getViewport()
-  	love.graphics.draw(Images[self.itemType]["sprite"],Images[self.itemType][self.state][self.frame] or Images[self.itemType][self.state], 
-  	self.x - (w/2)*self.direction, self.y - h/2, 0, self.direction , 1)
-end
-   
-function Item:update(dt)
-	if not self.isVisible then return end
-	self.timePassed = self.timePassed + dt
+	self.timePassed = self.timePassed + love.timer.getDelta()
 	if self.timePassed > self.timePerFrame then  
 		self.frame = self.frame + 1
 		if type(Images[self.itemType][self.state]) == "table" and self.frame > #Images[self.itemType][self.state] then
@@ -43,6 +34,15 @@ function Item:update(dt)
 		end
 		self.timePassed = self.timePassed - self.timePerFrame
 	end
+	if not self.isVisible then return end
+	--local drawState = 
+	local _,_,w,h = (Images[self.itemType][self.state][self.frame] or Images[self.itemType][self.state]):getViewport()
+  	love.graphics.draw(Images[self.itemType]["sprite"],Images[self.itemType][self.state][self.frame] or Images[self.itemType][self.state], 
+  	self.x - (w/2)*self.direction, self.y - h/2, 0, self.direction , 1)
+end
+   
+function Item:update(dt)
+	if not self.isVisible then return end
 	for k,v in pairs(self.behaviors) do
 		v(self)
 	end
@@ -89,15 +89,9 @@ function killOnEnter(self) -- not only player
 
 end
 
-function killPlayerOnEnter(self)
-	if checkPlayerCollision(self) then
-		
-	end
-end
-
 function collect(self)
-	if checkPlayerCollision(self) then
-		Layer.player[0].inventory[#Layer.player[0].inventory + 1] = self
+	if checkPlayerCollision(self) and #PLAYER.inventory < 9 then
+		PLAYER.inventory[#PLAYER.inventory + 1] = self
 		self.isVisible = false
 	end
 end

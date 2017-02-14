@@ -1,7 +1,7 @@
 Player = {}
 
 -- Constructor
-function Player:new( xc, yc, w, h, acc, frictX, frictY, grav, jmpSpeed)
+function Player:new( xc, yc, w, h, acc, frictX, frictY, grav, jmpSpeed, _funcs)
   -- define our parameters here
   local object = {
     x = xc,
@@ -21,10 +21,10 @@ function Player:new( xc, yc, w, h, acc, frictX, frictY, grav, jmpSpeed)
     frictionX = frictX,
     frictionY = frictY,
     state = "front",
-    startHp = 1000,
-    hp = 1000,
-    lives = 5,
+    recentlyDamaged = false,
+    hp = 5000,
     coins = 0,
+    behaviors = _funcs,
     collider = Collider:new(xc, yc, w, h, 0.7, 0.9),
     children = {},
     inventory = {},
@@ -35,6 +35,14 @@ function Player:new( xc, yc, w, h, acc, frictX, frictY, grav, jmpSpeed)
 end
 
 function Player:draw()
+	self.timePassed = self.timePassed + love.timer.getDelta()
+	if self.timePassed > self.timePerFrame then  
+		self.frame = self.frame + 1
+		if self.frame > #Images["player"]["walk"] then
+			self.frame = self.frame - (#Images["player"]["walk"])
+		end
+		self.timePassed = self.timePassed - self.timePerFrame
+	end
 	self.direction = self.direction and self.velocityX*self.direction < 0 and -self.direction or self.direction or 1
 	local _,_,w,h = (Images["player"][self.state][self.frame] or Images["player"][self.state]):getViewport()
   	love.graphics.draw(Images["player"]["sprite"],Images["player"][self.state][self.frame] or Images["player"][self.state], 
@@ -45,6 +53,9 @@ function Player:draw()
 end
 
 function Player:update(dt)
+    if self.hp < 1 then
+    	return
+    end
     
     -- switch weapon logic, move that into a function
     if love.keyboard.isDown("1") and not love.keyboard.isDown("i") then
@@ -55,16 +66,6 @@ function Player:update(dt)
         self:deactivateAllWeapons()
         Layer.player[0].children[2].active = true
     end
-    
-	--print(self.x, self.y)
-	self.timePassed = self.timePassed + dt
-	if self.timePassed > self.timePerFrame then  
-		self.frame = self.frame + 1
-		if self.frame > #Images["player"]["walk"] then
-			self.frame = self.frame - (#Images["player"]["walk"])
-		end
-		self.timePassed = self.timePassed - self.timePerFrame
-	end
 
 	local forceX, forceY = 0,0
 	if love.keyboard.isDown("f") then
@@ -87,6 +88,11 @@ function Player:update(dt)
 	if (forceX * self.velocityX) < 0 and self.jumping then
 		forceX = forceX/2
 	end
+	
+	  	
+  	for k,v in pairs(self.behaviors) do
+		v(self)
+	end	
 
 	local prevX, prevY = self.x, self.y
 	--self.y = self.y + 5
@@ -103,7 +109,6 @@ function Player:update(dt)
 	self.x = clamp(0 + self.width/2, self.x , WORLD_WIDTH - self.width/2)
 	self.y = clamp(0 + self.height/2, self.y , WORLD_HEIGHT - self.height/2)
 
-	self.speed = 500
 	local dx,dy = self.x - prevX, self.y - prevY
 	collisionWithStatic(self,dx,dy) 
 
@@ -116,6 +121,7 @@ function Player:update(dt)
 	end
 	
   	dx,dy = self.x - prevX, self.y - prevY
+  	
     for i = 1,#self.children do
   		self.children[i]:update(dt,dx,dy,self.direction)
   	end
