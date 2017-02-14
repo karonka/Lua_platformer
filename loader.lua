@@ -7,6 +7,7 @@ function mediaLoader()	-- ? to be read from file ?
   spriteParser('GameAssets/Sprites/Tiles/sheet.txt','GameAssets/Sprites/Tiles/sheet.png')
   spriteParser('GameAssets/Sprites/HUD/hud_spritesheet.xml','GameAssets/Sprites/HUD/hud_spritesheet.png')
   bgsLoader("normal", "GameAssets/Sprites/Backgrounds/bg_grasslands.png")
+  menuLoader("gameover", "GameAssets/Sprites/HUD/gameover.png")
 end
 
 
@@ -100,3 +101,12 @@ function bgsLoader(bg_state, file) --bg_state = {ice, forest, dungeon, space....
 		Images["background"][bg_state] = love.graphics.newImage(file)
 end
 
+function menuLoader(state, file)
+	if not Images then
+		Images = {}
+	end
+	if not Images["menu"] then
+		Images["menu"] = {}
+	end
+		Images["menu"][state] = love.graphics.newImage(file)
+end

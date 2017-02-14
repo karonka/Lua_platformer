@@ -1,6 +1,6 @@
 Enemy = {}
 -- Constructor
-function Enemy:new( xc, yc, w, h, velocity, enemyTp, st, timePerFr, _hp, _onHitFunction, funcs)
+function Enemy:new( xc, yc, w, h, velocity, enemyTp, st, timePerFr, _hp, _collider, _onHitFunction, funcs)
   -- define our parameters here
   local object = {
     x = xc,
@@ -28,6 +28,17 @@ function Enemy:new( xc, yc, w, h, velocity, enemyTp, st, timePerFr, _hp, _onHitF
 end
 
 function Enemy:draw()
+	self.timePassed = self.timePassed + love.timer.getDelta()
+	if self.timePassed > self.timePerFrame then  
+		self.frame = self.frame + 1
+		if type(Images[self.enemyType][self.state]) == "table" and self.frame > #Images[self.enemyType][self.state] then
+			self.frame = self.frame - (#Images[self.enemyType][self.state])
+		elseif type(Images[self.enemyType][self.state]) ~= "table" then
+			self.frame = 1
+		end
+		self.timePassed = self.timePassed - self.timePerFrame
+	end
+
     if self.recentlyDamaged == true and self.state ~= 'dead' then
         love.graphics.setColor(150,0,0)
     end
@@ -44,16 +55,7 @@ end
    
 function Enemy:update(dt)
 	local prevX, prevY = self.x, self.y
-	self.timePassed = self.timePassed + dt
-	if self.timePassed > self.timePerFrame then  
-		self.frame = self.frame + 1
-		if type(Images[self.enemyType][self.state]) == "table" and self.frame > #Images[self.enemyType][self.state] then
-			self.frame = self.frame - (#Images[self.enemyType][self.state])
-		elseif type(Images[self.enemyType][self.state]) ~= "table" then
-			self.frame = 1
-		end
-		self.timePassed = self.timePassed - self.timePerFrame
-	end
+	
 	for k,v in pairs(self.behaviors) do
 		v(self)
 	end	

@@ -20,19 +20,22 @@ end
 
 
 function love.update(dt)
-  for k, v in pairs(Layer) do 
-    for k2, v2 in pairs(v) do
-      if v == Layer.platforms then
-        for k3, v3 in pairs(v2) do
-          v3:update(dt)
-        end
-      else     
-        v2:update(dt)
-      end
-    end
-  end
-  Camera.update(dt)
-  HUD:update()
+	if not GAME_OVER then
+	  for k, v in pairs(Layer) do 
+		for k2, v2 in pairs(v) do
+		  if v == Layer.platforms then
+		    for k3, v3 in pairs(v2) do
+		      v3:update(dt)
+		    end
+		  else     
+		    v2:update(dt)
+		  end
+		end
+	  end
+	end
+  	Camera.update(dt)
+  	HUD:update()
+  	if love.keyboard.isDown('l') then GAME_OVER = true end
 end
 
 
@@ -54,6 +57,10 @@ function love.draw()
   end  
   love.graphics.pop() 
   HUD:draw()
+  drawInventory()
+  if GAME_OVER then
+  	drawGameOverScreen()
+  end
 end
 
 function createLevel()
@@ -65,7 +72,7 @@ function createLevel()
     Layer.player = {}
     Layer.items = {}
   
-    Layer.player[0] = Player:new(SCREEN_WIDTH/2, SCREEN_HEIGHT/2, 72, 97, 1500, 3, 1.4, 1800, 1400)
+    Layer.player[0] = Player:new(SCREEN_WIDTH/2, SCREEN_HEIGHT/2, 72, 97, 1500, 3, 1.4, 1800, 1400, {restore(2, 'recentlyDamaged', true, {['recentlyDamaged'] = false})})
     --Layer.player[0].children[1] = Weapon:new(Layer.player[0].x, Layer.player[0].y, 22, 64,   9, 59, 28, 25,   60, 10, 60, 60, 'sword', 'normal', 100, Weapon.swordHit(0.5,1.8,0.15))
     Layer.player[0].children[1] =   Weapon:new(Layer.player[0].x, Layer.player[0].y, 22, 64,   10, 20, 28, 25,   0, 0, 0, 0, 'gun', 'normal', 25, Weapon.gunHit(0.2,600,20,50,-5))
     PLAYER = Layer.player[0]
@@ -73,14 +80,15 @@ function createLevel()
     Camera.target = Layer.player[0]
 	Layer.enemies[0] = Snail.new(200, 200)
 	Layer.enemies[1] = Fly.new(200, 400, 500)
-	Layer.enemies[2] = Spider.new(800, 400, 500)
-	Layer.items[0] = Item:new(200, 500, 20, 20, 'buttonBlue', nil, {activateOnPlayerEnter})
-	Layer.items[1] = Item:new(300, 500, 20, 20, 'buttonGreen', nil, {activateOnPlayerEnter,deactivateOnPlayerLeave})
+	Layer.enemies[2] = Spider.new(0, 400, 500)
+	Layer.items[0] = Item:new(200, 500, 20, 20, 'buttonBlue', nil, nil, {activateOnPlayerEnter})
+	Layer.items[1] = Item:new(300, 500, 20, 20, 'buttonGreen', nil, nil, {activateOnPlayerEnter,deactivateOnPlayerLeave})
 	Layer.items[2] = Item:new(400, 500, 20, 20, 'buttonYellow')
 	Layer.items[3] = Coin.new(500,500)
-	Layer.items[4] = Item:new(900, 500, 20, 20, 'key', 'yellow', {activateSthOnPlayerEnter(Layer.items[2]), hideOnPlayerEnter})
-	Layer.items[5] = Item:new(700, 500, 20, 20, 'flagRed', nil, {activateOnPlayerEnter})
+	Layer.items[4] = Item:new(900, 500, 20, 20, 'key', 'yellow', nil, {activateSthOnPlayerEnter(Layer.items[2]), hideOnPlayerEnter})
+	Layer.items[5] = Item:new(700, 500, 20, 20, 'flagRed', nil, nil, {activateOnPlayerEnter})
 	Layer.items[6] = Bomb.new(100, 500)
+	Layer.items[7] = Spikes.new(1000, 500)
     for i = 1, TILE_COUNT_Y do
         Layer.platforms[i] = {}
         if i % 10 == 0 then
