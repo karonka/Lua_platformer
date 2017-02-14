@@ -165,7 +165,9 @@ end
 
 
 --- DEBUG ---
-
+DEBUG = false
 function drawCollider(self)
-    love.graphics.rectangle("fill", self.collider.x1, self.collider.y1, self.collider.w, self.collider.h)
+    if DEBUG then
+        love.graphics.rectangle("fill", self.collider.x1, self.collider.y1, self.collider.w, self.collider.h)
+    end
 end
