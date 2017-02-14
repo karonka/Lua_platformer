@@ -74,7 +74,7 @@ function createLevel()
     Layer.player = {}
     Layer.items = {}
   
-    Layer.player[0] = Player:new(SCREEN_WIDTH/2, SCREEN_HEIGHT/2, 72, 97, 1500, 3, 1.4, 1800, 1400, {restore(2, 'recentlyDamaged', true, {['recentlyDamaged'] = false})})
+    Layer.player[0] = Player:new(SCREEN_WIDTH/2 * Camera.scaleX, SCREEN_HEIGHT/2 * Camera.scaleY, 72, 97, 1500, 3, 1.4, 1800, 1400, {restore(2, 'recentlyDamaged', true, {['recentlyDamaged'] = false})})
     --Layer.player[0].children[1] = Weapon:new(Layer.player[0].x, Layer.player[0].y, 22, 64,   9, 59, 28, 25,   60, 10, 60, 60, 'sword', 'normal', 100, Weapon.swordHit(0.5,1.8,0.15))
     Layer.player[0].children[1] =   Weapon:new(Layer.player[0].x, Layer.player[0].y, 22, 64,   10, 20, 28, 25,   0, 0, 0, 0, 'gun', 'normal', 25, Weapon.gunHit(0.2,600,20,50,-5))
     PLAYER = Layer.player[0]

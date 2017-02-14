@@ -20,6 +20,5 @@ function Camera.update(dt)
     Camera.tY = clamp(-WORLD_HEIGHT * Camera.scaleY + SCREEN_HEIGHT, Camera.tY, 0)
     Camera.tX = math.floor(Camera.tX)
     Camera.tY = math.floor(Camera.tY)
-    print(Camera.target.x)
     love.graphics.translate(Camera.tX,Camera.tY)
 end
