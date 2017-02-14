@@ -77,6 +77,7 @@ function createLevel()
     Layer.player[0] = Player:new(SCREEN_WIDTH/2 * (1/Camera.scaleX), SCREEN_HEIGHT/2 * (1/Camera.scaleY), 72, 97, 1500, 3, 1.4, 1800, 1400, {restore(0.4, 'recentlyDamaged', true, {['recentlyDamaged'] = false})})
     Layer.player[0].children[1] = Weapon:new(Layer.player[0].x, Layer.player[0].y, 22, 64,   9, 59, 28, 25,   60, 10, 60, 60, 'sword', 'normal', 100, Weapon.swordHit(0.5,1.8,0.15))
     Layer.player[0].children[2] =   Weapon:new(Layer.player[0].x, Layer.player[0].y, 22, 64,   10, 20, 28, 25,   0, 0, 0, 0, 'gun', 'normal', 25, Weapon.gunHit(0.2,600,20,50,-5))
+    Layer.player[0].children[1].active = true
     PLAYER = Layer.player[0]
     --Layer.player[0].children[2] = Projectile:new(1000,300, 12, 12, 250, 1,'projectile', 'laser',0, 300, {moveLinear})
     Camera.target = Layer.player[0]
@@ -97,24 +98,38 @@ function createLevel()
         if i % 10 == 0 then
             for j = 0, TILE_COUNT_X - 1 do
                 -- Create enemies and probably objects in the future
-                if love.math.random(40) == 1 then
-                    Layer.enemies[#Layer.enemies +1] = Spider.new(TILE_COUNT_X*j + TILE_WIDTH/2, (300-TILE_COUNT_Y) + 30*i )
+                local difficulty = i / TILE_COUNT_Y
+                print(difficulty)
+                if love.math.random(15 / difficulty) == 1 then
+                    Layer.enemies[#Layer.enemies +1] = Spider.new(TILE_COUNT_X*j + TILE_WIDTH/2, (300-TILE_HEIGHT) + 30*i )
                 end
-                if math.random(30) == 1 then
-                    Layer.enemies[#Layer.enemies +1] = Fly.new(TILE_COUNT_X*j + TILE_WIDTH/2, (300-TILE_COUNT_Y * 2.5) + 30*i, 500 )
+                if math.random(15 / difficulty) == 1 then
+                    Layer.enemies[#Layer.enemies +1] = Fly.new(TILE_COUNT_X*j + TILE_WIDTH/2, (300-TILE_HEIGHT * 2.5) + 30*i, 500 )
                 end
-                if math.random(30) == 1 then
-                    Layer.enemies[#Layer.enemies +1] = Snail.new(TILE_COUNT_X*j + TILE_WIDTH/2, (300-TILE_COUNT_Y) + 30*i)
+                if math.random(20 / difficulty) == 1 then
+                    Layer.enemies[#Layer.enemies +1] = Snail.new(TILE_COUNT_X*j + TILE_WIDTH/2, (300-TILE_HEIGHT) + 30*i)
                 end
-                if math.random(30) == 1 then
-                    Layer.enemies[#Layer.enemies +1] = Barnacle.new(TILE_COUNT_X*j + TILE_WIDTH/2, (300-TILE_COUNT_Y) + 30*i)
+                if math.random(15 / difficulty) == 1 then
+                    Layer.enemies[#Layer.enemies +1] = Barnacle.new(TILE_COUNT_X*j + TILE_WIDTH/2, (300-TILE_HEIGHT) + 30*i)
+                end
+                if math.random(20 / difficulty) == 1 then
+                    Layer.enemies[#Layer.enemies +1] = Spikes.new(TILE_COUNT_X*j + TILE_WIDTH/2, (300-TILE_HEIGHT) + 30*i)
                 end
                 -- Create the platform
-               -- if i == 10 or i == 20 then
+                if i == 10 or i == 20 then
                     Layer.platforms[i][j] = Platform:new(TILE_WIDTH*j + TILE_WIDTH/2, 300+30*i, 70, 70, "grass", "mid")
-                --end
+                end
                 if i == 30 or i == 40 then
                     Layer.platforms[i][j] = Platform:new(TILE_WIDTH*j + TILE_WIDTH/2, 300+30*i, 70, 70, "dirt", "mid")
+                end
+                if i == 50 or i == 60 then
+                    Layer.platforms[i][j] = Platform:new(TILE_WIDTH*j + TILE_WIDTH/2, 300+30*i, 70, 70, "sand", "mid")
+                end
+                if i == 70 or i == 80 then
+                    Layer.platforms[i][j] = Platform:new(TILE_WIDTH*j + TILE_WIDTH/2, 300+30*i, 70, 70, "castle", "mid")
+                end
+                if i == 90 or i == 100 then
+                    Layer.platforms[i][j] = Platform:new(TILE_WIDTH*j + TILE_WIDTH/2, 300+30*i, 70, 70, "stone", "mid")
                 end
             end
             

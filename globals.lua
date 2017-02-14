@@ -7,7 +7,7 @@ love.window.setMode( SCREEN_WIDTH, SCREEN_HEIGHT , {fullscreen = false, borderle
 TILE_WIDTH = 70
 TILE_HEIGHT = 70
 TILE_COUNT_X = 80
-TILE_COUNT_Y = 80
+TILE_COUNT_Y = 100
 
 MENU = false
 GAME_OVER = false
