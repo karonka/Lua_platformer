@@ -57,10 +57,10 @@
 	<SubTexture name="dirt_left.png" x="504" y="432" width="70" height="70"/>
 	<SubTexture name="dirt_mid.png" x="504" y="360" width="70" height="70"/>
 	<SubTexture name="dirt_right.png" x="648" y="504" width="70" height="70"/>
-	<SubTexture name="door_closedMid.png" x="648" y="432" width="70" height="70"/>
-	<SubTexture name="door_closedTop.png" x="648" y="360" width="70" height="70"/>
-	<SubTexture name="door_openMid.png" x="648" y="288" width="70" height="70"/>
-	<SubTexture name="door_openTop.png" x="648" y="216" width="70" height="70"/>
+	<SubTexture name="doorMid_normal.png" x="648" y="432" width="70" height="70"/>
+	<SubTexture name="doorTop_normal.png" x="648" y="360" width="70" height="70"/>
+	<SubTexture name="doorMid_get.png" x="648" y="288" width="70" height="70"/>
+	<SubTexture name="doorTop_get.png" x="648" y="216" width="70" height="70"/>
 --	<SubTexture name="fence.png" x="648" y="144" width="70" height="70"/>
 --	<SubTexture name="fenceBroken.png" x="648" y="72" width="70" height="70"/>
 	<SubTexture name="grass_main.png" x="648" y="0" width="70" height="70"/>

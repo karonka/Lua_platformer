@@ -48,10 +48,12 @@ function Player:update(dt)
     
     -- switch weapon logic, move that into a function
     if love.keyboard.isDown("1") and not love.keyboard.isDown("i") then
-        Layer.player[0].children[1] = Weapon:new(Layer.player[0].x, Layer.player[0].y, 22, 64,   9, 59, 28, 25,   60, 10, 60, 60, 'sword', 'normal', 100, Weapon.swordHit(0.5,1.8,0.15))
+        self:deactivateAllWeapons()
+        Layer.player[0].children[1].active = true
     end
     if love.keyboard.isDown("2") and not love.keyboard.isDown("i") then
-        Layer.player[0].children[1] =   Weapon:new(Layer.player[0].x, Layer.player[0].y, 22, 64,   10, 20, 28, 25,   0, 0, 0, 0, 'gun', 'normal', 25, Weapon.gunHit(0.2,600,20,50,-5))
+        self:deactivateAllWeapons()
+        Layer.player[0].children[2].active = true
     end
     
 	--print(self.x, self.y)
@@ -94,6 +96,10 @@ function Player:update(dt)
 	self.velocityX = self.velocityX >= 0 and math.floor(self.velocityX) or math.ceil(self.velocityX)
 	self.x = self.x + self.velocityX*dt
 	self.y = self.y + self.velocityY*dt
+    -- For Debugging, to move down and test the level faster
+    if love.keyboard.isDown("]") then 
+        self.y = self.y + 200
+    end
 	self.x = clamp(0 + self.width/2, self.x , WORLD_WIDTH - self.width/2)
 	self.y = clamp(0 + self.height/2, self.y , WORLD_HEIGHT - self.height/2)
 
@@ -113,6 +119,7 @@ function Player:update(dt)
     for i = 1,#self.children do
   		self.children[i]:update(dt,dx,dy,self.direction)
   	end
+    
  	self:chooseFromInventory()
 end
 
@@ -126,4 +133,8 @@ function Player:chooseFromInventory()
 	end
 end
 
-
+function Player:deactivateAllWeapons() 
+    for i = 1, #Layer.player[0].children do
+        Layer.player[0].children[i].active = false
+    end
+end

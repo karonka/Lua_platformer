@@ -1,6 +1,6 @@
 <TextureAtlas imagePath="sheet.png">
-	<SubTexture name="barnacle_normal.png" x="318" y="239" width="51" height="57"/>
-	<SubTexture name="barnacle_bite.png" x="528" y="220" width="51" height="58"/>
+	<SubTexture name="barnacle_normal.png" x="318" y="240" width="51" height="56"/>
+	<SubTexture name="barnacle_normal2.png" x="528" y="220" width="51" height="58"/>
 	<SubTexture name="barnacle_dead.png" x="477" y="220" width="51" height="57"/>
 	<SubTexture name="barnacle_hit.png" x="477" y="350" width="51" height="57"/>
 	<SubTexture name="bat_fly1.png" x="71" y="235" width="70" height="47"/>

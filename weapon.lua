@@ -24,6 +24,7 @@ function Weapon:new(xc, yc, w, h, _spriteOffsetFromHandX, _spriteOffsetFromHandY
     state = _state,
     angle = 0,
     func = _func,
+    active = false,
     offsetColliderX = _offsetColliderX,
     offsetColliderY = _offsetColliderY,
     collider = _collider or Collider:new(xc + _offsetColliderX, yc + _offsetColliderY, _colliderW, colliderH),
@@ -42,6 +43,9 @@ end
 end]]
 
 function Weapon:draw()
+    if not self.active then 
+        return
+    end
     -- Draw the collider for debuging
     drawCollider(self)
 	if(self.direction == 1) then
@@ -64,6 +68,7 @@ function Weapon:draw()
 end
 
 function Weapon:update(dt, dx, dy, direction) 
+    
     if(self.direction ~= direction) then
         self.collider:update( (self.offsetColliderX*2) * direction, 0)
     end
@@ -72,7 +77,12 @@ function Weapon:update(dt, dx, dy, direction)
 	self.y = self.y + dy
 	self.collider:update(dx,dy)
 	self.direction = direction or self.direction
-	self:func(dt,love.keyboard.isDown("e"))
+    
+    -- If the weapon is active use his attack
+	if self.active then 
+        self:func(dt,love.keyboard.isDown("e"))
+    end
+    
 	--print(self.func(dt,love.keyboard.isDown("e")))
 	--move()
  	--updateChildren() -- children = projectiles

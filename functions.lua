@@ -92,7 +92,6 @@ function collisionWithStatic(self,dx,dy)
 			overlapY = (math.abs(overlapY) > math.abs(overlapYT)) and overlapY or overlapYT
 		end
 	end
-  
   if (both) then
     if(collX == collY) then
       self.x = self.x - overlapX
