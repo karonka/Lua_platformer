@@ -126,12 +126,9 @@ function onPlayerInteraction(_func)
 	end
 end
 
-function useBomb(self)
-	for k, v in pairs(Layer.enemies) do
-    	v:getHit(self.damage)
-    end
-    self.isVisible = false
-end
+
+
+
 
 
 

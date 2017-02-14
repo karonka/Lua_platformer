@@ -7,8 +7,6 @@ function Projectile:new( xc, yc, w, h, speed, dir, tp, st, _targetX, _targetY, _
     y = yc,
     velocityX = speed*dir,
     velocityY = 0,
-    targetX = _targetX,
-    targetY = _targetY,
     width = w,
     height = h,
     frame = 1,
@@ -46,10 +44,6 @@ function Projectile:update(dt)
 	if not self.active then return end
 	for k,v in ipairs(self.behaviors) do
 		v(self,dt)
-	end
-	if ((self.velocityX > 0 and self.x > self.targetX) or  (self.velocityX < 0 and self.x < self.targetX)) 
-		or ((self.velocityY > 0 and self.y > self.targetY) or  (self.velocityY < 0 and self.y < self.targetY)) then
-		self.active = false
 	end
     for k, v in pairs(Layer.enemies) do 
         if self.collider:checkCollisionBasic(v.collider)  and v.state ~= 'dead' then

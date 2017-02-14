@@ -127,7 +127,7 @@ function Weapon.gunHit(hitCooldown, projectileSpeed, maxProjectiles, firePointOf
 			hitting = true
             local spawnX = self.x + (self.spriteOffsetFromHandX + firePointOffsetFromHandX) * self.direction
             local spawnY = self.y +  self.spriteOffsetFromHandY + firePointOffsetFromHandY  
-            self.children[nextProjectileIndex] = Projectile:new(spawnX, spawnY , 12, 12, projectileSpeed, 1,'projectile', 'laser', spawnX + 800 * self.direction, spawnY, self.damage, {moveLinear})
+            self.children[nextProjectileIndex] = Projectile:new(spawnX, spawnY , 12, 12, projectileSpeed, 1,'projectile', 'laser', math.max(0,spawnX + 800 * self.direction), spawnY, self.damage, {moveLinear})
             nextProjectileIndex = nextProjectileIndex % maxProjectiles + 1
 		end
 		if hitting then

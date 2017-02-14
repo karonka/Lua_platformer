@@ -5,6 +5,7 @@ function mediaLoader()	-- ? to be read from file ?
   spriteParser('GameAssets/Sprites/Actors/enemies_spritesheet.txt','GameAssets/Sprites/Actors/enemies_spritesheet.png')
   spriteParser('GameAssets/Sprites/Actors/enemies.xml','GameAssets/Sprites/Actors/enemies.png')
   spriteParser('GameAssets/Sprites/Tiles/sheet.txt','GameAssets/Sprites/Tiles/sheet.png')
+  spriteParser('GameAssets/Sprites/HUD/hud_spritesheet.xml','GameAssets/Sprites/HUD/hud_spritesheet.png')
   bgsLoader("normal", "GameAssets/Sprites/Backgrounds/bg_grasslands.png")
 end
 
@@ -54,13 +55,13 @@ function xmlParser(file, sprite)
 	for line in love.filesystem.lines(file) do
 	  fileLines[#fileLines+1] = line
 	end
-	local pattern = "%s*<SubTexture name=\"(%a+%d*)%p(%a+)%d*%.png\" x=\"(%d+)\" y=\"(%d+)\" width=\"(%d+)\" height=\"(%d+)\"/>%s*"
-	local obj, state, x, y, w, h
+	local pattern = "%s*<SubTexture name=\"(%a+%d*)%p(%a*)(%d*)%.png\" x=\"(%d+)\" y=\"(%d+)\" width=\"(%d+)\" height=\"(%d+)\"/>%s*"
+	local obj, state, state2, x, y, w, h
 	for i = 1,#fileLines do
     	local t = fileLines[i]
-    	obj, state, x, y, w, h = string.match(t,pattern)
+    	obj, state, state2, x, y, w, h = string.match(t,pattern)
     	if h then
-			quadsLoader(obj, state, img, x, y, w, h)
+			quadsLoader(obj, state ~= "" and state or state2, img, x, y, w, h)
     	end
     end
 end

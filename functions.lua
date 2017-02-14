@@ -119,8 +119,9 @@ function dieOnPlayerCollision(self)
 	end
 end
 
+
 function checkPlayerCollision(self)
-	return self.collider:checkCollision(Layer.player[0].collider,0,0)
+	return self.collider:checkCollision(PLAYER.collider,0,0)
 end
 
 --- OTHER ---
@@ -156,6 +157,10 @@ function takeDamage(self,damage)
 	if self.hp <= 0 then
 		takeAllHp(self)
 	end
+end
+
+function takeNoDamage(self,damage)
+    self.recentlyDamaged = true
 end
 
 
