@@ -54,6 +54,8 @@ end
 
 function Player:update(dt)
     if self.hp < 1 then
+    	--self.state = 'dead'
+    	GAME_OVER = true
     	return
     end
     
@@ -111,8 +113,10 @@ function Player:update(dt)
 
 	local dx,dy = self.x - prevX, self.y - prevY
 	collisionWithStatic(self,dx,dy) 
-
-	if math.abs(self.velocityX) < 20 and not self.jumping then
+	
+	if self.recentlyDamaged then
+		self.state = 'hurt'
+	elseif math.abs(self.velocityX) < 20 and not self.jumping then
 		self.state = 'front'
 	elseif math.abs(self.velocityX) > 20 and not self.jumping then
 		self.state = 'walk'
@@ -125,15 +129,14 @@ function Player:update(dt)
     for i = 1,#self.children do
   		self.children[i]:update(dt,dx,dy,self.direction)
   	end
-    
- 	self:chooseFromInventory()
 end
 
-function Player:chooseFromInventory()
+function love.keypressed( key, scancode, isrepeat)
+	if isrepeat then return end
 	if love.keyboard.isDown('i') then
-		for i = 1,#self.inventory do
-			if love.keyboard.isDown(tostring(i)) then
-				drop(self.inventory[i],self.x + 100*self.direction, self.y)
+		for i = 1,#PLAYER.inventory do
+			if love.keyboard.isDown(i) then
+				drop(PLAYER.inventory[i], i, PLAYER.x + 100*PLAYER.direction, PLAYER.y)
 			end
 		end
 	end

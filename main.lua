@@ -74,7 +74,7 @@ function createLevel()
     Layer.player = {}
     Layer.items = {}
   
-    Layer.player[0] = Player:new(SCREEN_WIDTH/2 * (1/Camera.scaleX), SCREEN_HEIGHT/2 * (1/Camera.scaleY), 72, 97, 1500, 3, 1.4, 1800, 1400, {restore(2, 'recentlyDamaged', true, {['recentlyDamaged'] = false})})
+    Layer.player[0] = Player:new(SCREEN_WIDTH/2 * (1/Camera.scaleX), SCREEN_HEIGHT/2 * (1/Camera.scaleY), 72, 97, 1500, 3, 1.4, 1800, 1400, {restore(0.4, 'recentlyDamaged', true, {['recentlyDamaged'] = false})})
     Layer.player[0].children[1] = Weapon:new(Layer.player[0].x, Layer.player[0].y, 22, 64,   9, 59, 28, 25,   60, 10, 60, 60, 'sword', 'normal', 100, Weapon.swordHit(0.5,1.8,0.15))
     Layer.player[0].children[2] =   Weapon:new(Layer.player[0].x, Layer.player[0].y, 22, 64,   10, 20, 28, 25,   0, 0, 0, 0, 'gun', 'normal', 25, Weapon.gunHit(0.2,600,20,50,-5))
     PLAYER = Layer.player[0]
@@ -88,7 +88,7 @@ function createLevel()
 	Layer.items[1] = Item:new(300, 500, 20, 20, 'buttonGreen', nil, nil, {activateOnPlayerEnter,deactivateOnPlayerLeave})
 	Layer.items[2] = Item:new(400, 500, 20, 20, 'buttonYellow')
 	Layer.items[3] = Coin.new(500,500)
-	Layer.items[4] = Item:new(900, 500, 20, 20, 'key', 'yellow', nil, {activateSthOnPlayerEnter(Layer.items[2]), hideOnPlayerEnter})
+	Layer.items[4] = Item:new(900, 500, 20, 20, 'key', 'yellow', nil, {activateSthOnPlayerEnter(Layer.items[2]), collect, hideOnPlayerEnter})
 	Layer.items[5] = Item:new(700, 500, 20, 20, 'flagRed', nil, nil, {activateOnPlayerEnter})
 	Layer.items[6] = Bomb.new(100, 500)
 	Layer.items[7] = Spikes.new(1000, 500)
@@ -107,7 +107,7 @@ function createLevel()
                     Layer.enemies[#Layer.enemies +1] = Snail.new(TILE_COUNT_X*j + TILE_WIDTH/2, (300-TILE_COUNT_Y) + 30*i)
                 end
                 if math.random(30) == 1 then
-                    Layer.enemies[#Layer.enemies +1] = Enemy:new(TILE_COUNT_X*j + TILE_WIDTH/2, (300-TILE_COUNT_Y) + 30*i, 54, 30, 0, 'barnacle', 'normal', 1/2, 100, nil, takeDamage, {normalMovement, dieOnPlayerCollision, restore(3.2, 'state', 'dead', {['state'] = 'normal', ['velocityX'] = 0,['direction']= -1, ['hp'] = 100})})
+                    Layer.enemies[#Layer.enemies +1] = Barnacle.new(TILE_COUNT_X*j + TILE_WIDTH/2, (300-TILE_COUNT_Y) + 30*i)
                 end
                 -- Create the platform
                -- if i == 10 or i == 20 then

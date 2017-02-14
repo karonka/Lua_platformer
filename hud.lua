@@ -6,10 +6,10 @@ HUD = {
 	['offsetY'] = 20,
 	['dist1'] = 20,
 	['dist2'] = 4,
-	['scale'] = SCREEN_WIDTH/2500
+	['scale'] = SCREEN_WIDTH/2500,
 }
 
---HUD['font'] = love.graphics.newFont( size )
+HUD['font'] = love.graphics.newFont( 12 )
 HUD.update = function(self)
 	self.coins = PLAYER.coins
 	
@@ -66,15 +66,17 @@ end
 
 function drawInventory()
 	local x,y = 500,20
+	local size = SCREEN_WIDTH/24
 	for i = 1,9 do
-		love.graphics.rectangle( 'line', x, y, 50, 50, 5, 5)
-		love.graphics.print( tostring(i), x + 40, y + 37)
+		love.graphics.rectangle( 'line', x, y, size, size, 3, 3)
+		love.graphics.print( {{0,0,0,120},tostring(i)}, x + 0.8*size, y + 0.8*size)
 		if PLAYER.inventory[i] then
-		
+			local item = PLAYER.inventory[i]
+			local quad = Images[item.itemType][item.state][1] or Images[item.itemType][item.state]-- or Images[item.itemType]['normal']
+			_,_,w,h = quad:getViewport()
+			love.graphics.draw(Images[item.itemType]["sprite"], quad, x + 3, y + 3, 0, size*0.8/w)
 		end
-	--	_,_,w,h = quad:getViewport()
-		--love.graphics.draw(sprite, quad, x, y, 0, self.scale)
-		x = x + 53
+		x = x + size + 3
 	end
 	
 end

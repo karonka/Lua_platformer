@@ -4,6 +4,7 @@ Bomb = {}
 Spider = {}
 Coin = {}
 Spikes = {}
+Barnacle = {}
 
 Snail.new = function (x,y)
 	return Enemy:new(x, y, 54, 30, 60, 'snail', 'walk', 1/2, 100, nil, takeNoDamage, {normalMovement, dieOnPlayerCollision, restore(3.2, 'state', 'dead', {['state'] = 'walk', ['velocityX'] = 60,['direction']= -1, ['hp'] = 100})})
@@ -12,7 +13,10 @@ Fly.new = function (x,y,dist)
 	return Enemy:new(x, y, 72, 33, 50, 'fly', 'fly', 1/4, 25, nil, takeDamage, {flyBetweenPoints(dist,x),dieOnPlayerCollision})
 end
 Spider.new = function (x,y)
-	return Enemy:new(x, y, 70, 45, 70, 'spider', 'walk', 1/6, 200, nil, takeDamage, {normalMovement, restore(3.2, 'state', 'dead', {['state'] = 'walk', ['velocityX'] = 70,['direction']= -1, ['hp'] = 200})})
+	return Enemy:new(x, y, 70, 45, 70, 'spider', 'walk', 1/6, 200, nil, takeDamage, {normalMovement, damagePlayer(300), restore(3.2, 'state', 'dead', {['state'] = 'walk', ['velocityX'] = 70,['direction']= -1, ['hp'] = 200})})
+end
+Barnacle.new = function(x, y)
+	return Enemy:new(x, y, 51, 55, 0, 'barnacle', 'normal', 1/4, 100, nil, takeDamage, {normalMovement, damagePlayer(500), restore(3.2, 'state', 'dead', {['state'] = 'normal', ['velocityX'] = 0,['direction']= -1, ['hp'] = 100})})
 end
 
 Bomb.new = function(x, y)

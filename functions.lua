@@ -17,6 +17,11 @@ function applyGravity(self)
 	self.velocityY = self.velocityY + self.gravity*dt
 end
 
+function bounce(self)
+	self.velocityY = -700
+	self.velocityX = -self.velocityX
+end
+
 
 --- MOVEMENT LOGIC ---
 
@@ -168,8 +173,19 @@ function damagePlayer(damage)
 		if self.state ~= 'dead' and checkPlayerCollision(self) and PLAYER.recentlyDamaged == false then
 			PLAYER.hp = PLAYER.hp - damage
 			PLAYER.recentlyDamaged = true
+			PLAYER.state = 'hurt'
+			bounce(PLAYER)
 		end
 	end
+end
+
+
+function lerp(a,b,t) 
+    return a+(b-a)*t 
+end
+
+function clamp(min, val, max)
+    return math.max(min, math.min(val, max));
 end
 
 

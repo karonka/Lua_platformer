@@ -16,10 +16,3 @@ PLAYER = nil
 WORLD_WIDTH = TILE_WIDTH*TILE_COUNT_X
 WORLD_HEIGHT = TILE_HEIGHT*TILE_COUNT_Y
 
-function lerp(a,b,t) 
-    return a+(b-a)*t 
-end
-
-function clamp(min, val, max)
-    return math.max(min, math.min(val, max));
-end

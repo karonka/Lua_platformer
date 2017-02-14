@@ -96,17 +96,17 @@ function collect(self)
 	end
 end
 
-function drop(self, x, y)
+function drop(self, i, x, y)
+	--[[for i = 1,#PLAYER.inventory do
+		--print(self.itemType)
+		print(PLAYER.inventory[i])
+	end]]
 	local prevX, prevY = self.x, self.y
 	self.isVisible = true
-	self.x = x
-	self.y = y
-	for k,v in pairs(Layer.player[0].inventory) do
-		if Layer.player[0].inventory[k] == self then
-			Layer.player[0].inventory[k] = nil
-			break
-		end
-	end
+	self.x = clamp(0, x, WORLD_WIDTH)
+	self.y = clamp(0, y, WORLD_HEIGHT)
+	PLAYER.inventory[i] = PLAYER.inventory[#PLAYER.inventory]
+	PLAYER.inventory[#PLAYER.inventory] = nil
 	self.collider:update(self.x - prevX, self.y - prevY)
 	self.inUse = true
 end
