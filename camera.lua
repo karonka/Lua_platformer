@@ -15,6 +15,7 @@ function Camera:setTarget(_target)
 end
 
 function Camera.update(dt)
+    print(Camera.scaleX)
     Camera.tX = lerp(Camera.tX,SCREEN_WIDTH/2 - Camera.target.x * Camera.scaleX, math.min(1, 3*dt)) 
     Camera.tY = lerp(Camera.tY,SCREEN_HEIGHT/2 - Camera.target.y * Camera.scaleY, math.min(1, 3*dt))
     Camera.tX = clamp(-WORLD_WIDTH * Camera.scaleX + SCREEN_WIDTH, Camera.tX, 0)
