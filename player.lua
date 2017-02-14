@@ -59,11 +59,7 @@ function Player:update(dt)
     	return
     end
     
-    -- switch weapon logic, move that into a function
-    if love.keyboard.isDown("1") and not love.keyboard.isDown("i") then
-        self:deactivateAllWeapons()
-        Layer.player[0].children[1].active = true
-    end
+    
     if love.keyboard.isDown("2") and not love.keyboard.isDown("i") then
         self:deactivateAllWeapons()
         Layer.player[0].children[2].active = true
@@ -140,6 +136,16 @@ function love.keypressed( key, scancode, isrepeat)
 			end
 		end
 	end
+    -- switch weapon logic, move that into a function
+    if key == 'q' then
+        if Layer.player[0].children[1].active then
+            Layer.player[0].children[1].active = false
+            Layer.player[0].children[2].active = true
+        else 
+            Layer.player[0].children[1].active = true
+            Layer.player[0].children[2].active = false
+        end
+    end
 end
 
 function Player:deactivateAllWeapons() 
