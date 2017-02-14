@@ -1,6 +1,6 @@
 Projectile = {}
 -- Constructor
-function Projectile:new( xc, yc, w, h, speed, dir, tp, st, _targetX, _targetY, _damage, funcs)
+function Projectile:new( xc, yc, w, h, speed, dir, _type, st, _targetX, _targetY, _damage, funcs)
   -- define our parameters here
   local object = {
     x = xc,
@@ -14,7 +14,7 @@ function Projectile:new( xc, yc, w, h, speed, dir, tp, st, _targetX, _targetY, _
     timePerFrame = 1/18,
     direction = dir,
     damage = _damage,
-    projectileType = tp,
+    projectileType = _type,
     state = st,
     active = true,
     collider = Collider:new(xc, yc, w, h, 0.8, 0.8),

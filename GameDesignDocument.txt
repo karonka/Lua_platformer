@@ -1,0 +1,10 @@
+-OrangePlazma Platformer:
+-Player starts on a long platform with a hole somewhere to drop on a lower platform.
+-There are random enemies on each platform "level"  
+-Lower level have more difficult enemies.
+-Player wins when he reaches the door randomly placed in the bottom level
+-More platform "levels" can be added as more content is added to the game.
+-In the future, once the bottom has been reached, there can be an option to start the game from the next stage
+where the difficulty of the first platform level is similiar to the last platform level of the previous stage
+
+

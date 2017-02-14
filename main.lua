@@ -78,6 +78,7 @@ function createLevel()
     PLAYER = Layer.player[0]
     --Layer.player[0].children[2] = Projectile:new(1000,300, 12, 12, 250, 1,'projectile', 'laser',0, 300, {moveLinear})
     Camera.target = Layer.player[0]
+
 	Layer.enemies[0] = Snail.new(200, 200)
 	Layer.enemies[1] = Fly.new(200, 400, 500)
 	Layer.enemies[2] = Spider.new(0, 400, 500)
@@ -93,6 +94,18 @@ function createLevel()
         Layer.platforms[i] = {}
         if i % 10 == 0 then
             for j = 0, TILE_COUNT_X - 1 do
+            if love.math.random(40) == 1 then
+                Layer.enemies[#Layer.enemies +1] = Spider.new(TILE_COUNT_X*j + TILE_WIDTH/2, (300-TILE_COUNT_Y) + 30*i )
+            end
+            if math.random(30) == 1 then
+                Layer.enemies[#Layer.enemies +1] = Fly.new(TILE_COUNT_X*j + TILE_WIDTH/2, (300-TILE_COUNT_Y * 2.5) + 30*i, 500 )
+            end
+            if math.random(30) == 1 then
+                Layer.enemies[#Layer.enemies +1] = Snail.new(TILE_COUNT_X*j + TILE_WIDTH/2, (300-TILE_COUNT_Y) + 30*i)
+            end
+            if math.random(30) == 1 then
+                Layer.enemies[#Layer.enemies +1] = Enemy:new(TILE_COUNT_X*j + TILE_WIDTH/2, (300-TILE_COUNT_Y) + 30*i, 54, 30, 60, 'barnacle', 'normal', 1/2, 100, nil, takeDamage, {normalMovement, dieOnPlayerCollision, restore(3.2, 'state', 'dead', {['state'] = 'normal', ['velocityX'] = 60,['direction']= -1, ['hp'] = 100})})
+            end
             Layer.platforms[i][j] = Platform:new(TILE_WIDTH*j + TILE_WIDTH/2, 300+30*i, 70, 70, "grass", "mid")
             end
             local hole = love.math.random(0,46)

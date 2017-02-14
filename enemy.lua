@@ -22,9 +22,13 @@ function Enemy:new( xc, yc, w, h, velocity, enemyTp, st, timePerFr, _hp, _collid
     getHit = _onHitFunction,
     behaviors = funcs,
 --  update/ move logic = nil,
-  }
-  setmetatable(object, { __index = Enemy })
-  return object
+}
+    if math.random(2) == 1 then
+        object.direction = 1
+        object.velocityX = -object.velocityX
+    end    
+    setmetatable(object, { __index = Enemy })
+    return object
 end
 
 function Enemy:draw()
@@ -55,7 +59,6 @@ end
    
 function Enemy:update(dt)
 	local prevX, prevY = self.x, self.y
-	
 	for k,v in pairs(self.behaviors) do
 		v(self)
 	end	
