@@ -60,11 +60,6 @@ function Player:update(dt)
     end
     
     
-    if love.keyboard.isDown("2") and not love.keyboard.isDown("i") then
-        self:deactivateAllWeapons()
-        Layer.player[0].children[2].active = true
-    end
-
 	local forceX, forceY = 0,0
 	if love.keyboard.isDown("f") then
 		self.speed = 3000
