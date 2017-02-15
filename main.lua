@@ -99,7 +99,6 @@ function createLevel()
             for j = 0, TILE_COUNT_X - 1 do
                 -- Create enemies and probably objects in the future
                 local difficulty = i / TILE_COUNT_Y
-                print(difficulty)
                 if love.math.random(15 / difficulty) == 1 then
                     Layer.enemies[#Layer.enemies +1] = Spider.new(TILE_COUNT_X*j + TILE_WIDTH/2, (300-TILE_HEIGHT) + 30*i )
                 end
@@ -113,7 +112,7 @@ function createLevel()
                     Layer.enemies[#Layer.enemies +1] = Barnacle.new(TILE_COUNT_X*j + TILE_WIDTH/2, (300-TILE_HEIGHT) + 30*i)
                 end
                 if math.random(20 / difficulty) == 1 then
-                    Layer.enemies[#Layer.enemies +1] = Spikes.new(TILE_COUNT_X*j + TILE_WIDTH/2, (300-TILE_HEIGHT) + 30*i)
+                    Layer.items[#Layer.items +1] = Spikes.new(TILE_COUNT_X*j + TILE_WIDTH/2, (300-TILE_HEIGHT) + 30*i)
                 end
                 -- Create the platform
                 if i == 10 or i == 20 then
